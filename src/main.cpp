@@ -1,242 +1,156 @@
-#include <SDL2/SDL.h>
 #include <iostream>
-#include <vector>
-#include <ctime>
+#include <cmath>
+#include "../include/CA.h"
 
-#define ALIVE 0U
-#define DEAD -1U
-#define CELL(i, j) cells[i * w + j]
-#define SUM(i, j) sums[i * w + j]
-
-namespace CA {
-
-bool run = true;
-
-static int events_thread(void* ptr)
-{
-    SDL_Event event;
-
-    while (true)
-    {
-        SDL_WaitEvent(&event);
-        if (event.type == SDL_QUIT)
-        {
-            run = false;
-            return 0;
-        }
-    }
-}
-
-
-
-
-template<int d>
-struct Cell;
-
-template<>
-struct Cell<1>
-{
-    Cell<1>() { }
-    Cell<1>(int i) : i(i) { }
-    int i;
-};
-
-template<>
-struct Cell<2>
-{
-    Cell<2>() { }
-    Cell<2>(int x, int y) : x(x), y(y) { }
-    int x;
-    int y;
-};
-
-
-template<int d>
-class CellularAutomaton
+class Life : public CA::AnimatedCA2D
 {
 public:
 
-
-
-
-
-    int w;
-    int h;
-
-    Uint32* cells = new Uint32[w * h];
-
-    CellularAutomaton(int w, int h) : w(w), h(h) { }
-
-    typedef int State;
-
-   // struct Cell { virtual ~Cell() { } };
-    struct Cell1D //: Cell
+    Life(int W, int H, int delay, bool save) : AnimatedCA2D(W, H, 2, delay, save), old_qs(W * H), new_qs(W * H), current_t(0)
     {
-        Cell1D(int i) : i(i) { }
-        int i;
-    };
-    struct Cell2D //: Cell
-    {
-        Cell2D(int x, int y) : x(x), y(y) { }
-        int x;
-        int y;
-    };
-
-    virtual inline std::vector<Cell<d>> N(Cell<d> c) = 0;
-    virtual inline State delta(Cell<d> c, std::vector<State>) = 0;
-    virtual inline State phi(Cell<d> c, int t) = 0;
-    virtual inline State q0(Cell<d> c) = 0;
-
-    void show()
-    {
-        switch (d)
-        {
-        case 1:
-            break;
-
-        case 2:
-
-            int dx = 450;
-            int dy = 450;
-
-            SDL_Init(SDL_INIT_VIDEO);
-            SDL_CreateThread(events_thread, NULL, (void*)NULL);
-
-            SDL_Window* window = SDL_CreateWindow("CA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, 0);
-            SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-            SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, w, h);
-            Uint32* cells = new Uint32[w * h];
-            Uint32 sums[w * h];
-
-            srand(time(NULL));
-            memset(cells, DEAD, w * h * sizeof(Uint32));
-            for (int r = dy + 1; r < h - dy - 1; r++)
-                for (int c = dx + 1; c < w - dx - 1; c++)
-                    CELL(r, c) = (rand() % 2) * DEAD;
-
-            //for (int i = 0; i < w * h; i++)
-            //    cells[i] = (rand() % 2) * DEAD;
-
-            while (run)
-            {
-                SDL_UpdateTexture(texture, NULL, cells, w * sizeof(Uint32));
-
-                memset(sums, 0, w * h * sizeof(Uint32));
-                for (int r = 1; r < h - 1; r++)
-                    for (int c = 1; c < w - 1; c++)
-                        for (int i = r - 1; i <= r + 1; i++)
-                            for (int j = c - 1; j <= c + 1; j++)
-                                if (i != r || j != c)
-                                    if (CELL(i, j) == ALIVE)
-                                        SUM(r, c)++;
-
-                for (int r = 1; r < h - 1; r++)
-                {
-                    for (int c = 1; c < w - 1; c++)
-                    {
-                        auto neighbours = N(Cell<2>(c, r));
-                        for (auto neighbour : neighbours)
-                            std::cout << neighbour.x << std::endl;
-                    }
-                }
-
-                //for (int i = 0; i < w * h; i++)
-                    //cells[i] = (cells[i] == ALIVE && (sums[i] == 2 || sums[i] == 3)) || (cells[i] == DEAD && sums[i] == 3) ? ALIVE : DEAD;
-                /*for (int r = 1; r < h - 1; r++)
-                    for (int c = 1; c < w - 1; c++)
-                        if (CELL(r, c) == ALIVE)
-                            CELL(r, c) =
-                            (0 && SUM(r, c) == 0) ||
-                            (0 && SUM(r, c) == 1) ||
-                            (0 && SUM(r, c) == 2) ||
-                            (0 && SUM(r, c) == 3) ||
-                            (0 && SUM(r, c) == 4) ||
-                            (1 && SUM(r, c) == 5) ||
-                            (1 && SUM(r, c) == 6) ||
-                            (1 && SUM(r, c) == 7) ||
-                            (1 && SUM(r, c) == 8)
-                            ? ALIVE : DEAD;
-                        else
-                            CELL(r, c) =
-                            (0 && SUM(r, c) == 0) ||
-                            (0 && SUM(r, c) == 1) ||
-                            (0 && SUM(r, c) == 2) ||
-                            (1 && SUM(r, c) == 3) ||
-                            (0 && SUM(r, c) == 4) ||
-                            (1 && SUM(r, c) == 5) ||
-                            (1 && SUM(r, c) == 6) ||
-                            (1 && SUM(r, c) == 7) ||
-                            (1 && SUM(r, c) == 8)
-                            ? ALIVE : DEAD;*/
-
-                SDL_RenderClear(renderer);
-                SDL_RenderCopy(renderer, texture, NULL, NULL);
-                SDL_RenderPresent(renderer);
-                SDL_Delay(0);
-            }
-
-            delete[] cells;
-            SDL_DestroyTexture(texture);
-            SDL_DestroyRenderer(renderer);
-            SDL_DestroyWindow(window);
-            SDL_Quit();
-
-            break;
-        }
+        srand(time(NULL));
     }
-};
 
-class Life : public CellularAutomaton<2>
-{
-public:
-    Life(int w, int h) : CellularAutomaton(w, h) { }
-
-    inline std::vector<Cell<2>> N(Cell<2> c)
+    inline std::vector<CA::C2D> N(CA::C2D c)
     {
-        auto result = std::vector<Cell<2>>(9);
-        for (int r = 1; r < h - 1; r++)
-            for (int c = 1; c < w - 1; c++)
-                for (int i = r; i <= r; i++)
-                    for (int j = c; j <= c; j++)
-                        result.push_back(Cell<2>(i % h, j % w));
+        auto result = std::vector<CA::C2D>();
+
+        result.reserve(9);
+        for (int j = -1; j <= 1; j++)
+            for (int k = -1; k <= 1; k++)
+                result.push_back(L[CA::mod(CA::mod(c.x + j, W) + W * CA::mod(c.y + k, H), W * H)]);
 
         return result;
     }
 
-    inline State delta(Cell<2> c, std::vector<State> qs)
+    inline CA::State delta(CA::C2D c, std::vector<CA::State> qs)
     {
-        int sum = qs[0] + qs[1] + qs[2] + qs[3] + qs[5] + qs[6] + qs[7] + qs[8];
-        return (qs[4] == 1 && (sum == 2 || sum == 3)) || (qs[4] == 0 && sum == 3);
+        int sum = 0;
+
+        for (int i = 0; i < 9; i++)
+            if (i != 4)
+                if (qs[i] == Q[1])
+                    sum++;
+
+        return Q[(qs[4] == Q[1] && (sum == 2 || sum == 3)) || (qs[4] == Q[0] && sum == 3)];
     }
 
-    inline State phi(Cell<2> c, int t)
+    inline CA::State phi(CA::C2D c, int t)
     {
-        return 0;//return delta(c, );
+        if (t == 0)
+        {
+            new_qs[c.x + W * c.y] = q0(c);
+            return q0(c);
+        }
+        else
+        {
+            if (t != current_t)
+            {
+                current_t = t;
+                old_qs = new_qs;
+            }
+
+            auto neighbours = N(c);
+            auto neigh_qs = std::vector<CA::State>();
+            neigh_qs.reserve(9);
+
+            for (auto neighbour : neighbours)
+                neigh_qs.push_back(old_qs[neighbour.x + W * neighbour.y]);
+
+            new_qs[c.x + W * c.y] = delta(c, neigh_qs);
+
+            return delta(c, neigh_qs);
+        }
     }
 
-    inline State q0(Cell<2> c)
+    inline CA::State q0(CA::C2D c)
     {
-        return 0;
+        return Q[(rand() % 2) * (rand() % 2)];
     }
+
+private:
+
+    int current_t;
+    std::vector<CA::State> old_qs;
+    std::vector<CA::State> new_qs;
 };
 
-/*inline std::vector<Cell> N(Cell)
+class Rule30 : public CA::AnimatedCA1D
 {
-    auto result = std::vector<Cell>(9);
-    for (int r = 1; r < h - 1; r++)
-        for (int c = 1; c < w - 1; c++)
-            for (int i = r - 1; i <= r + 1; i++)
-                for (int j = c - 1; j <= c + 1; j++)
-                    if (i != r || j != c)
-                        if (CELL(i, j) == ALIVE)
-}*/
+public:
+
+    Rule30(int W, int H, int delay, bool save) : AnimatedCA1D(W, H, 2, delay, save), old_qs(W), new_qs(W), current_t(0) { }
+
+    inline std::vector<CA::C1D> N(CA::C1D c)
+    {
+        auto result = std::vector<CA::C1D>(3);
+
+        result[0] = L[CA::mod(c.i - 1, W)];
+        result[1] = c;
+        result[2] = L[CA::mod(c.i + 1, W)];
+
+        return result;
+    }
+
+    inline CA::State delta(CA::C1D c, std::vector<CA::State> qs)
+    {
+        int ql = qs[0] + 1;
+        int qi = qs[1] + 1;
+        int qr = qs[2] + 1;
+
+        return Q[CA::mod(qi + ql + qr + qi * qr, 2)];
+    }
+
+    inline CA::State phi(CA::C1D c, int t)
+    {
+        if (t == 0)
+        {
+            new_qs[c.i] = q0(c);
+            return q0(c);
+        }
+        else
+        {
+            if (t != current_t)
+            {
+                current_t = t;
+                old_qs = new_qs;
+            }
+
+            auto neighbours = N(c);
+            auto neigh_qs = std::vector<CA::State>();
+            neigh_qs.reserve(3);
+
+            for (auto neighbour : neighbours)
+                neigh_qs.push_back(old_qs[neighbour.i]);
+
+            new_qs[c.i] = delta(c, neigh_qs);
+
+            return delta(c, neigh_qs);
+        }
+    }
+
+    inline CA::State q0(CA::C1D c)
+    {
+        return Q[c.i == W / 2 ? 1 : 0];
+    }
+
+private:
+
+    int current_t;
+    std::vector<CA::State> old_qs;
+    std::vector<CA::State> new_qs;
+};
 
 
-}
+
+
+
 
 int main()
 {
-    CA::Life(1024, 1024).show();
+    //Life(32, 32, 0, true).animate();
+    Rule30(799, 400, 0, true).animate();
+    //Rule30(899, 450, 0, true).animate();
 
     return 0;
 }
