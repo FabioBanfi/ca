@@ -53,10 +53,11 @@ protected:
 };
 
 template <class Cell>
-class AnimatedCA : public CellularAutomaton<Cell>
+class AnimatedCA : virtual public CellularAutomaton<Cell>
 {
 protected:
 
+    AnimatedCA();
     AnimatedCA(int W, int H, int S, int delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save) { }
 
     virtual void animate() = 0;
@@ -149,11 +150,11 @@ protected:
     }
 };
 
-class AnimatedCA1D : public AnimatedCA<C1D>
+class AnimatedCA1D : virtual public AnimatedCA<C1D>
 {
 protected:
 
-    AnimatedCA1D(int W, int H, int S, int delay = 0, bool save = false) : AnimatedCA(W, H, S, delay, save)
+    AnimatedCA1D()
     {
         L = std::vector<C1D>(W);
         for (int i = 0; i < W; i++)
@@ -203,15 +204,15 @@ public:
     }
 };
 
-class AnimatedCA2D : public AnimatedCA<C2D>
+class AnimatedCA2D : virtual public AnimatedCA<C2D>
 {
 protected:
 
-    AnimatedCA2D(int W, int H, int S, int delay = 0, bool save = false) : AnimatedCA(W, H, S, delay, save)
+    AnimatedCA2D()
     {
         L = std::vector<C2D>(W * H);
-        for (int i = 0; i < W * H; i++){
-            L[i] = (C2D(mod(i, W), (i - mod(i, W)) / W));}
+        for (int i = 0; i < W * H; i++)
+            L[i] = (C2D(mod(i, W), (i - mod(i, W)) / W));
 
         Q = std::vector<State>(S);
         Q[0] = DEAD;
@@ -258,23 +259,31 @@ public:
         SDL_DestroyWindow(window);
         SDL_Quit();
     }
-
 };
 
-
 template <class Cell>
-class FirstOrderCA : public AnimatedCA<Cell>
+class FirstOrderCA : virtual public CellularAutomaton<Cell>
 {
 protected:
 
-    inline State phi(Cell c, int t)
+    FirstOrderCA();
+    FirstOrderCA(int W, int d) : d(d), current_t(0), old_qs(W), new_qs(W) { }
+
+    int d;
+    int current_t;
+    std::vector<State> old_qs;
+    std::vector<State> new_qs;
+};
+
+class FirstOrderCA1D : virtual public FirstOrderCA<C1D>
+{
+protected:
+
+    inline State phi(C1D c, int t)
     {
         if (t == 0)
         {
-            if (std::is_same<Cell, C1D>::value)
-                new_qs[((C1D)c).i] = q0(c);
-            else if (std::is_same<Cell, C2D>::value)
-                new_qs[((C2D)c).x + this->W * ((C2D)c).y] = q0(c);
+            new_qs[c.i] = q0(c);
 
             return q0(c);
         }
@@ -287,31 +296,58 @@ protected:
             }
 
             auto neighbours = N(c);
-            auto nstates = std::vector<State>();
-            //nstates.reserve(3);
+            auto neigh_qs = std::vector<State>();
+            neigh_qs.reserve(d);
+
             for (auto neighbour : neighbours)
-                if (std::is_same<Cell, C1D>::value)
-                    nstates.push_back(old_qs[((C1D)neighbour).i]);
-                else if (std::is_same<Cell, C2D>::value)
-                    nstates.push_back(old_qs[((C2D)neighbour).x + this->W * ((C2D)neighbour).y]);
+                neigh_qs.push_back(old_qs[neighbour.i]);
 
+            new_qs[c.i] = delta(c, neigh_qs);
 
-            if (std::is_same<Cell, C1D>::value)
-                new_qs[((C1D)c).i] = delta(c, nstates);
-            else if (std::is_same<Cell, C2D>::value)
-                new_qs[((C2D)c).x + this->W * ((C2D)c).y] = delta(c, nstates);
-            return delta(c, nstates);
+            return delta(c, neigh_qs);
+        }
+    }
+};
+
+class FirstOrderCA2D : virtual public FirstOrderCA<C2D>
+{
+protected:
+
+    FirstOrderCA2D(int W) : W(W) { }
+
+    inline State phi(C2D c, int t)
+    {
+        if (t == 0)
+        {
+            new_qs[c.x + W * c.y] = q0(c);
+
+            return q0(c);
+        }
+        else
+        {
+            if (t != current_t)
+            {
+                current_t = t;
+                old_qs = new_qs;
+            }
+
+            auto neighbours = N(c);
+            auto neigh_qs = std::vector<CA::State>();
+            neigh_qs.reserve(d);
+
+            for (auto neighbour : neighbours)
+                neigh_qs.push_back(old_qs[neighbour.x + W * neighbour.y]);
+
+            new_qs[c.x + W * c.y] = delta(c, neigh_qs);
+
+            return delta(c, neigh_qs);
         }
     }
 
 private:
 
-    int current_t;
-    std::vector<State> old_qs;
-    std::vector<State> new_qs;
+    int W;
 };
-
-
 
 }
 
