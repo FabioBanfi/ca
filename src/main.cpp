@@ -2,11 +2,11 @@
 #include <cmath>
 #include "../include/CA.h"
 
-class Life : public CA::AnimatedCA2D//, public CA::FirstOrderCA2D
+class Life : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
 {
 public:
 
-    Life(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), old_qs(W * H), new_qs(W * H), current_t(0)
+    Life(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), FirstOrderCA2D(W * H, W, 9)
     {
         srand(time(NULL));
     }
@@ -35,51 +35,17 @@ public:
         return Q[(qs[4] == Q[1] && (sum == 2 || sum == 3)) || (qs[4] == Q[0] && sum == 3)];
     }
 
-    inline CA::State phi(CA::C2D c, int t)
-    {
-        if (t == 0)
-        {
-            new_qs[c.x + W * c.y] = q0(c);
-            return q0(c);
-        }
-        else
-        {
-            if (t != current_t)
-            {
-                current_t = t;
-                old_qs = new_qs;
-            }
-
-            auto neighbours = N(c);
-            auto neigh_qs = std::vector<CA::State>();
-            neigh_qs.reserve(9);
-
-            for (auto neighbour : neighbours)
-                neigh_qs.push_back(old_qs[neighbour.x + W * neighbour.y]);
-
-            new_qs[c.x + W * c.y] = delta(c, neigh_qs);
-
-            return delta(c, neigh_qs);
-        }
-    }
-
     inline CA::State q0(CA::C2D c)
     {
         return Q[(rand() % 2) * (rand() % 2)];
     }
-
-private:
-
-    int current_t;
-    std::vector<CA::State> old_qs;
-    std::vector<CA::State> new_qs;
 };
 
 class Rule30 : public CA::AnimatedCA1D, public CA::FirstOrderCA1D
 {
 public:
 
-    Rule30(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), FirstOrderCA(W, 3) { }
+    Rule30(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), FirstOrderCA1D(W, 3) { }
 
     inline std::vector<CA::C1D> N(CA::C1D c)
     {
@@ -109,8 +75,8 @@ public:
 
 int main()
 {
-    Life(128, 128).animate();
-    //Rule30(799, 400).animate();
+    //Life(128, 128).animate();
+    Rule30(799, 400).animate();
     //Rule30(899, 450, 0, true).animate();
 
     return 0;

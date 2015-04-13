@@ -58,16 +58,16 @@ class AnimatedCA : virtual public CellularAutomaton<Cell>
 protected:
 
     AnimatedCA();
-    AnimatedCA(int W, int H, int S, int delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save) { }
+    AnimatedCA(int W, int H, int S, int delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save), cells(new Uint32[W * H]) { }
 
     virtual void animate() = 0;
 
     int W;
     int H;
     int S;
-    bool save;
     int delay;
-    Uint32* cells = new Uint32[W * H];
+    bool save;
+    Uint32* cells;
 
     static int events_thread(void* ptr)
     {
@@ -182,7 +182,7 @@ public:
         while (run)
         {
             for (int i = 0; i < W; i++)
-                CELL(mod(t, H), i) = phi(L[i], t);
+                cells[mod(t, H) * W + i] = phi(L[i], t);
 
             SDL_UpdateTexture(texture, NULL, cells, W * sizeof(Uint32));
             SDL_RenderClear(renderer);
@@ -191,8 +191,12 @@ public:
             SDL_Delay(delay);
 
             t++;
-            if(t % H == 0 && save)
-                saveScreenshotBMP(std::to_string(t / H) + std::string(".bmp"), window, renderer);
+            if (t % H == 0 && save)
+            {
+                std::stringstream ss;
+                ss << std::setw(3) << std::setfill('0') << t / H;
+                saveScreenshotBMP(ss.str() + std::string(".bmp"), window, renderer);
+            }
         }
 
         run = true;
@@ -247,9 +251,12 @@ public:
             SDL_Delay(delay);
 
             t++;
-            std::stringstream ss;
-            ss << std::setw(4) << std::setfill('0') << t;
-            saveScreenshotBMP(ss.str() + std::string(".bmp"), window, renderer);
+            if (save)
+            {
+                std::stringstream ss;
+                ss << std::setw(4) << std::setfill('0') << t;
+                saveScreenshotBMP(ss.str() + std::string(".bmp"), window, renderer);
+            }
         }
 
         run = true;
@@ -261,23 +268,11 @@ public:
     }
 };
 
-template <class Cell>
-class FirstOrderCA : virtual public CellularAutomaton<Cell>
+class FirstOrderCA1D : virtual public CellularAutomaton<C1D>
 {
 protected:
 
-    FirstOrderCA();
-    FirstOrderCA(int W, int d) : d(d), current_t(0), old_qs(W), new_qs(W) { }
-
-    int d;
-    int current_t;
-    std::vector<State> old_qs;
-    std::vector<State> new_qs;
-};
-
-class FirstOrderCA1D : virtual public FirstOrderCA<C1D>
-{
-protected:
+    FirstOrderCA1D(int size, int d) : d(d), current_t(0), old_qs(size), new_qs(size) { }
 
     inline State phi(C1D c, int t)
     {
@@ -307,19 +302,26 @@ protected:
             return delta(c, neigh_qs);
         }
     }
+
+private:
+
+    int d;
+    int current_t;
+    std::vector<State> old_qs;
+    std::vector<State> new_qs;
 };
 
-class FirstOrderCA2D : virtual public FirstOrderCA<C2D>
+class FirstOrderCA2D : virtual public CellularAutomaton<C2D>
 {
 protected:
 
-    FirstOrderCA2D(int W) : W(W) { }
+    FirstOrderCA2D(int size, int offset, int d) : offset(offset), d(d), current_t(0), old_qs(size), new_qs(size) { }
 
     inline State phi(C2D c, int t)
     {
         if (t == 0)
         {
-            new_qs[c.x + W * c.y] = q0(c);
+            new_qs[c.x + offset * c.y] = q0(c);
 
             return q0(c);
         }
@@ -336,9 +338,9 @@ protected:
             neigh_qs.reserve(d);
 
             for (auto neighbour : neighbours)
-                neigh_qs.push_back(old_qs[neighbour.x + W * neighbour.y]);
+                neigh_qs.push_back(old_qs[neighbour.x + offset * neighbour.y]);
 
-            new_qs[c.x + W * c.y] = delta(c, neigh_qs);
+            new_qs[c.x + offset * c.y] = delta(c, neigh_qs);
 
             return delta(c, neigh_qs);
         }
@@ -346,7 +348,11 @@ protected:
 
 private:
 
-    int W;
+    int d;
+    int offset;
+    int current_t;
+    std::vector<State> old_qs;
+    std::vector<State> new_qs;
 };
 
 }
