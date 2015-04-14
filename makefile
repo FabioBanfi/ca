@@ -10,7 +10,7 @@ OBJS = main.o AnimatedCA1D.o AnimatedCA2D.o FirstOrderCA1D.o FirstOrderCA2D.o
 all: ca
 
 ca: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJ)/* -o $(BIN)/$(NAME)
+	$(CC) $(CFLAGS) $(OBJ)/*.o -o $(BIN)/$(NAME)
 
 main.o: $(TEST)/main.cpp
 	$(CC) -c $(CFLAGS) $(TEST)/main.cpp -o $(OBJ)/main.o
@@ -28,4 +28,4 @@ FirstOrderCA2D.o: $(SRC)/FirstOrderCA2D.cpp
 	$(CC) -c $(CFLAGS) $(SRC)/FirstOrderCA2D.cpp -o $(OBJ)/FirstOrderCA2D.o
 
 clean:
-	rm -rf $(OBJ)/* $(BIN)/$(NAME)
+	rm -rf $(OBJ)/*.o $(BIN)/$(NAME)
