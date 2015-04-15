@@ -1,7 +1,15 @@
 #ifndef ANIMATED_CA_H
 #define ANIMATED_CA_H
 
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <SDL2/SDL.h>
 #include "CellularAutomaton.h"
+
+#define BLACK 0x0
+#define WHITE 0xFF
+#define GRAY(v) v | (v << 8) | (v << 16)
 
 namespace CA {
 
@@ -13,7 +21,7 @@ class AnimatedCA : virtual public CellularAutomaton<Cell>
 protected:
 
     AnimatedCA() { }
-    AnimatedCA(int W, int H, int S, int delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save), cells(new int[W * H]) { }
+    AnimatedCA(int W, int H, int S, int delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save), cells(new uint32_t[W * H]) { }
 
     virtual void animate() = 0;
 
@@ -22,7 +30,7 @@ protected:
     int S;
     int delay;
     bool save;
-    int* cells;
+    uint32_t* cells;
 
     static int events_thread(void* ptr)
     {

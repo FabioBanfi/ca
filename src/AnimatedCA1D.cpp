@@ -9,8 +9,9 @@ AnimatedCA1D::AnimatedCA1D()
         L[i] = C1D(i);
 
     Q = std::vector<State>(S);
-    Q[0] = DEAD;
-    Q[1] = ALIVE; // from ALIVE to DEAD ...
+    int d = 255 / (S - 1);
+    for (int s = 0; s < S; s++)
+        Q[s] = GRAY(255 - s * d);
 }
 
 void AnimatedCA1D::animate()
@@ -21,8 +22,7 @@ void AnimatedCA1D::animate()
     SDL_Window* window = SDL_CreateWindow("CA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, W, H, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, W, H);
-    Uint32* cells = new Uint32[W * H];
-    memset(cells, DEAD, W * H * sizeof(Uint32));
+    memset(cells, WHITE, W * H * sizeof(uint32_t));
 
     int t = 0;
     while (run)
@@ -30,7 +30,7 @@ void AnimatedCA1D::animate()
         for (int i = 0; i < W; i++)
             cells[mod(t, H) * W + i] = phi(L[i], t);
 
-        SDL_UpdateTexture(texture, NULL, cells, W * sizeof(Uint32));
+        SDL_UpdateTexture(texture, NULL, cells, W * sizeof(uint32_t));
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_RenderPresent(renderer);

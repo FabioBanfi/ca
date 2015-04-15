@@ -1,15 +1,7 @@
 #ifndef CELLULAR_AUTOMATON_H
 #define CELLULAR_AUTOMATON_H
 
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <vector>
-#include <ctime>
-#include <SDL2/SDL.h>
-
-#define ALIVE 0x0U
-#define DEAD 0xFFFFFFFFU
 
 namespace CA {
 
