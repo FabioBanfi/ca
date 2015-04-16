@@ -1,6 +1,8 @@
 #ifndef LANGTONS_S_ANT_H
 #define LANGTONS_S_ANT_H
 
+#define RED(v) ((v) << 16)
+
 #include "../include/CA.h"
 
 class LangtonsAnt : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
@@ -10,6 +12,15 @@ public:
     LangtonsAnt(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 10, delay, save), FirstOrderCA2D(W * H, W, 5)
     {
         srand(time(NULL));
+
+        Q[1] = RED(0xFF);
+        Q[2] = RED(0xFE);
+        Q[3] = RED(0xFD);
+        Q[4] = RED(0xFC);
+        Q[5] = RED(0xFB);
+        Q[6] = RED(0xFA);
+        Q[7] = RED(0xF9);
+        Q[8] = RED(0xF8);
     }
 
 private:
@@ -20,8 +31,8 @@ private:
 
         result.reserve(5);
         result.push_back(c);
-        result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y + 1, H), W * H)]);
         result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y - 1, H), W * H)]);
+        result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y + 1, H), W * H)]);
         result.push_back(L[CA::mod(CA::mod(c.x - 1, W) + W * CA::mod(c.y, H), W * H)]);
         result.push_back(L[CA::mod(CA::mod(c.x + 1, W) + W * CA::mod(c.y, H), W * H)]);
 
@@ -97,6 +108,7 @@ private:
 
     CA::State q0(CA::C2D c)
     {
+        //return Q[(rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2)];
         return c.x == W / 2 && c.y == H / 2 ? Q[1] : Q[0];
     }
 };
