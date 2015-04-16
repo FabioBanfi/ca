@@ -9,7 +9,7 @@
 
 #define BLACK 0x0
 #define WHITE 0xFF
-#define GRAY(v) v | (v << 8) | (v << 16)
+#define GRAY(v) ((v) | ((v) << 8) | ((v) << 16))
 
 namespace CA {
 

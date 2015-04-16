@@ -9,6 +9,8 @@ public:
 
     Rule30(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), FirstOrderCA1D(W, 3) { }
 
+private:
+
     std::vector<CA::C1D> N(CA::C1D c)
     {
         auto result = std::vector<CA::C1D>(3);

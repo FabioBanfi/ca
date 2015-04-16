@@ -12,6 +12,8 @@ public:
         srand(time(NULL));
     }
 
+private:
+
     std::vector<CA::C2D> N(CA::C2D c)
     {
         auto result = std::vector<CA::C2D>();

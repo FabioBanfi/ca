@@ -18,6 +18,8 @@ struct C1D
     int i;
     C1D() { i = 0; }
     C1D(int i) : i(i) { }
+    bool operator==(C1D c) { return this->i == c.i; }
+    bool operator!=(C1D c) { return this->i != c.i; }
 };
 
 struct C2D
@@ -25,6 +27,8 @@ struct C2D
     int x, y;
     C2D() { x = 0, y = 0; }
     C2D(int x, int y) : x(x), y(y) { }
+    bool operator==(C2D c) { return this->x == c.x && this->y == c.y; }
+    bool operator!=(C2D c) { return this->x != c.x || this->y != c.y; }
 };
 
 template <class Cell>
