@@ -5,10 +5,10 @@
 
 int main()
 {
-    //Rule30(799, 400).animate();
+    Rule30(799, 400).animate();
     //Life(256, 256).animate();
-    //BriansBrain(256, 256).animate();
-    LangtonsAnt(64, 64,0,true).animate();
+    //BriansBrain(256, 256, 0, true).animate();
+    //LangtonsAnt(64, 64).animate();
 
     return 0;
 }

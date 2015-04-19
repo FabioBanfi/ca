@@ -32,9 +32,9 @@ private:
         result.reserve(5);
         result.push_back(c);
         result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y - 1, H), W * H)]);
+        result.push_back(L[CA::mod(CA::mod(c.x + 1, W) + W * CA::mod(c.y, H), W * H)]);
         result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y + 1, H), W * H)]);
         result.push_back(L[CA::mod(CA::mod(c.x - 1, W) + W * CA::mod(c.y, H), W * H)]);
-        result.push_back(L[CA::mod(CA::mod(c.x + 1, W) + W * CA::mod(c.y, H), W * H)]);
 
         return result;
     }
@@ -43,59 +43,43 @@ private:
     {
         int w = Q[0];
         int Nw = Q[1];
-        int Sw = Q[2];
-        int Ww = Q[3];
-        int Ew = Q[4];
+        int Ew = Q[2];
+        int Sw = Q[3];
+        int Ww = Q[4];
         int Nb = Q[5];
-        int Sb = Q[6];
-        int Wb = Q[7];
-        int Eb = Q[8];
+        int Eb = Q[6];
+        int Sb = Q[7];
+        int Wb = Q[8];
         int b = Q[9];
 
         int q = qs[0];
         int qN = qs[1];
-        int qS = qs[2];
-        int qW = qs[3];
-        int qE = qs[4];
+        int qE = qs[2];
+        int qS = qs[3];
+        int qW = qs[4];
 
         if (q == w)
         {
-            if (qN == Ew)
-                return Sw;
-            else if (qS == Ww)
+            if (qS == Ww || qS == Eb)
                 return Nw;
-            else if (qW == Nw)
+            else if (qW == Nw || qW == Sb)
                 return Ew;
-            else if (qE == Sw)
-                return Ww;
-            else if (qN == Wb)
+            else if (qN == Ew || qN == Wb)
                 return Sw;
-            else if (qS == Eb)
-                return Nw;
-            else if (qW == Sb)
-                return Ew;
-            else if (qE == Nb)
+            else if (qE == Sw || qE == Nb)
                 return Ww;
             else
                 return w;
         }
         else if (q == b)
         {
-            if (qN == Ew)
-                return Sb;
-            else if (qS == Ww)
+            if (qS == Ww || qS == Eb)
                 return Nb;
-            else if (qW == Nw)
+            else if (qW == Nw || qW == Sb)
                 return Eb;
-            else if (qE == Sw)
-                return Wb;
-            else if (qN == Wb)
+            else if (qN == Ew || qN == Wb)
                 return Sb;
-            else if (qS == Eb)
-                return Nb;
-            else if (qW == Sb)
-                return Eb;
-            else if (qE == Nb)
+            else if (qE == Sw || qE == Nb)
                 return Wb;
             else
                 return b;
