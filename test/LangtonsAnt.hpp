@@ -31,10 +31,10 @@ private:
 
         result.reserve(5);
         result.push_back(c);
-        result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y - 1, H), W * H)]);
-        result.push_back(L[CA::mod(CA::mod(c.x + 1, W) + W * CA::mod(c.y, H), W * H)]);
-        result.push_back(L[CA::mod(CA::mod(c.x, W) + W * CA::mod(c.y + 1, H), W * H)]);
-        result.push_back(L[CA::mod(CA::mod(c.x - 1, W) + W * CA::mod(c.y, H), W * H)]);
+        result.push_back(L[CA::mod(c.x, W) + W * CA::mod(c.y - 1, H)]);
+        result.push_back(L[CA::mod(c.x + 1, W) + W * CA::mod(c.y, H)]);
+        result.push_back(L[CA::mod(c.x, W) + W * CA::mod(c.y + 1, H)]);
+        result.push_back(L[CA::mod(c.x - 1, W) + W * CA::mod(c.y, H)]);
 
         return result;
     }
@@ -92,8 +92,7 @@ private:
 
     CA::State q0(CA::C2D c)
     {
-        //return Q[(rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2) * (rand() % 2)];
-        return c.x == W / 2 && c.y == H / 2 ? Q[1] : Q[0];
+        return Q[c.x == W / 2 && c.y == H / 2];
     }
 };
 

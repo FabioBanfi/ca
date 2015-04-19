@@ -41,7 +41,7 @@ void AnimatedCA1D::animate()
         {
             std::stringstream ss;
             ss << std::setw(3) << std::setfill('0') << t / H;
-            saveScreenshotBMP(ss.str() + std::string(".bmp"), window, renderer);
+            saveScreenshotBMP(ss.str().append(std::string(".bmp")), window, renderer);
         }
     }
 

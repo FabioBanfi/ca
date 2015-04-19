@@ -21,7 +21,7 @@ private:
         result.reserve(9);
         for (int j = -1; j <= 1; j++)
             for (int k = -1; k <= 1; k++)
-                result.push_back(L[CA::mod(CA::mod(c.x + j, W) + W * CA::mod(c.y + k, H), W * H)]);
+                result.push_back(L[CA::mod(c.x + j, W) + W * CA::mod(c.y + k, H)]);
 
         return result;
     }

@@ -43,7 +43,7 @@ void AnimatedCA2D::animate()
         {
             std::stringstream ss;
             ss << std::setw(4) << std::setfill('0') << t;
-            saveScreenshotBMP(ss.str() + std::string(".bmp"), window, renderer);
+            saveScreenshotBMP(ss.str().append(std::string(".bmp")), window, renderer);
         }
     }
 
