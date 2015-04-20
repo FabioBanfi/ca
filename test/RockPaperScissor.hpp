@@ -10,7 +10,6 @@ public:
 
     RockPaperScissor(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 3, delay, save), FirstOrderCA2D(W * H, W, 2), gen(rd()), dis(0, 7)
     {
-        //std::cout << Q[0] << " " << Q[1] << " " << Q[2] << std::endl;//Q[2]=GRAY(254);
         srand(time(NULL));
     }
 
@@ -43,8 +42,7 @@ private:
         int q0 = qs[0] == Q[0] ? 0 : (qs[0] == Q[1] ? 1 : 2);
         int q1 = qs[1] == Q[0] ? 0 : (qs[1] == Q[1] ? 1 : 2);
 
-        return q0 == CA::mod(q1 - 1, 3) ? qs[1] : qs[0];
-        //return abs(CA::mod(qs[0] - , 3))
+        return qs[q0 == CA::mod(q1 - 1, 3)];
     }
 
     CA::State q0(CA::C2D c)
