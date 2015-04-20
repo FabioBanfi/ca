@@ -1,6 +1,7 @@
 #ifndef CELLULAR_AUTOMATON_H
 #define CELLULAR_AUTOMATON_H
 
+#include <iostream>
 #include <vector>
 
 namespace CA {
@@ -18,18 +19,22 @@ struct C1D
     int i;
     C1D() { i = 0; }
     C1D(int i) : i(i) { }
-    bool operator==(C1D c) { return this->i == c.i; }
-    bool operator!=(C1D c) { return this->i != c.i; }
+    bool operator==(const C1D& c) const { return this->i == c.i; }
+    bool operator!=(const C1D& c) const { return this->i != c.i; }
+    friend std::ostream& operator<<(std::ostream& os, const C1D& c);
 };
+inline std::ostream& operator<<(std::ostream& os, const C1D& c) { return os << "<" << c.i << ">"; }
 
 struct C2D
 {
     int x, y;
     C2D() { x = 0, y = 0; }
     C2D(int x, int y) : x(x), y(y) { }
-    bool operator==(C2D c) { return this->x == c.x && this->y == c.y; }
-    bool operator!=(C2D c) { return this->x != c.x || this->y != c.y; }
+    bool operator==(const C2D& c) const { return this->x == c.x && this->y == c.y; }
+    bool operator!=(const C2D& c) const { return this->x != c.x || this->y != c.y; }
+    friend std::ostream& operator<<(std::ostream& os, const C2D& c);
 };
+inline std::ostream& operator<<(std::ostream& os, const C2D& c) { return os << "<" << c.x << ", " << c.y << ">"; }
 
 template <class Cell>
 class CellularAutomaton
