@@ -36,7 +36,7 @@ private:
                 if (qs[i] == Q[1])
                     sum++;
 
-        return Q[qs[3] == Q[1] || qs[3] == Q[0] && sum == 1];
+        return Q[qs[3] == Q[1] || (qs[3] == Q[0] && sum == 1)];
     }
 
     CA::State q0(CA::C2D c)

@@ -7,8 +7,8 @@
 #include <SDL2/SDL.h>
 #include "CellularAutomaton.h"
 
-#define BLACK 0x0
-#define WHITE 0xFF
+#define BLACK 0x0U
+#define WHITE 0xFFU
 #define GRAY(v) ((v) | ((v) << 8) | ((v) << 16))
 
 namespace CA {
@@ -21,18 +21,18 @@ class AnimatedCA : virtual public CellularAutomaton<Cell>
 protected:
 
     AnimatedCA() { }
-    AnimatedCA(int W, int H, int S, int delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save), cells(new uint32_t[W * H]) { }
+    AnimatedCA(uint32_t W, uint32_t H, uint32_t S, uint32_t delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save), cells(new uint32_t[W * H]) { }
 
     virtual void animate() = 0;
 
-    int W;
-    int H;
-    int S;
-    int delay;
+    uint32_t W;
+    uint32_t H;
+    uint32_t S;
+    uint32_t delay;
     bool save;
     uint32_t* cells;
 
-    static int events_thread(void* ptr)
+    static int32_t events_thread(void* ptr)
     {
         SDL_Event event;
 
@@ -56,14 +56,14 @@ protected:
 
         if (infoSurface == NULL)
         {
-            std::cerr << "Failed to create info surface from window in saveScreenshotBMP(string), SDL_GetError() - " << SDL_GetError() << "\n";
+            std::cerr << "Failed to create info surface from window in saveScreenshotBMP(string), SDL_GetError() - " << SDL_GetError() << std::endl;
         }
         else
         {
-            unsigned char * pixels = new (std::nothrow) unsigned char[infoSurface->w * infoSurface->h * infoSurface->format->BytesPerPixel];
-            if (pixels == 0)
+            u_char* pixels = new (std::nothrow) u_char[infoSurface->w * infoSurface->h * infoSurface->format->BytesPerPixel];
+            if (pixels == nullptr)
             {
-                std::cerr << "Unable to allocate memory for screenshot pixel data buffer!\n";
+                std::cerr << "Unable to allocate memory for screenshot pixel data buffer!" << std::endl;
 
                 return false;
             }
@@ -71,7 +71,7 @@ protected:
             {
                 if (SDL_RenderReadPixels(SDLRenderer, &infoSurface->clip_rect, infoSurface->format->format, pixels, infoSurface->w * infoSurface->format->BytesPerPixel) != 0)
                 {
-                    std::cerr << "Failed to read pixel data from SDL_Renderer object. SDL_GetError() - " << SDL_GetError() << "\n";
+                    std::cerr << "Failed to read pixel data from SDL_Renderer object. SDL_GetError() - " << SDL_GetError() << std::endl;
                     pixels = NULL;
 
                     return false;
@@ -82,7 +82,7 @@ protected:
 
                     if (saveSurface == NULL)
                     {
-                        std::cerr << "Couldn't create SDL_Surface from renderer pixel data. SDL_GetError() - " << SDL_GetError() << "\n";
+                        std::cerr << "Couldn't create SDL_Surface from renderer pixel data. SDL_GetError() - " << SDL_GetError() << std::endl;
 
                         return false;
                     }
@@ -100,16 +100,6 @@ protected:
         }
 
         return true;
-
-        /* If using OpenGL:
-        unsigned char* pixels = new unsigned char[W * H * 4]; // 4 bytes for RGBA
-        glReadPixels(0, 0, W, H, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-        SDL_Surface* surf = SDL_CreateRGBSurfaceFrom(pixels, W, H, 8 * 4, W * 4, 0, 0, 0, 0);
-        SDL_SaveBMP(surf, std::to_string(t / H) + std::string(".bmp"));
-
-        SDL_FreeSurface(surf);
-        delete [] pixels;*/
     }
 };
 

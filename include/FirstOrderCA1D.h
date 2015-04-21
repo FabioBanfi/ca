@@ -9,13 +9,13 @@ class FirstOrderCA1D : virtual public CellularAutomaton<C1D>
 {
 protected:
 
-    FirstOrderCA1D(int size, int d) : d(d), current_t(0), old_qs(size), new_qs(size) { }
-    virtual State phi(C1D c, int t);
+    FirstOrderCA1D(uint32_t size, uint32_t d) : d(d), current_t(0), old_qs(size), new_qs(size) { }
+    virtual State phi(C1D c, uint32_t t);
 
 private:
 
-    int d;
-    int current_t;
+    uint32_t d;
+    uint32_t current_t;
     std::vector<State> old_qs;
     std::vector<State> new_qs;
 };

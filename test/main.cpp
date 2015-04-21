@@ -10,7 +10,7 @@ int main()
     //Rule30(799, 400).animate();
     //Life(256, 256).animate();
     //BriansBrain(256, 256).animate();
-    //LangtonsAnt(256, 256).animate();
+    //LangtonsAnt(64, 64).animate();
     //Snowflake(256, 256).animate();
     RockPaperScissor(256, 256).animate();
 

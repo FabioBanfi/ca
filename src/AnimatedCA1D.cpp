@@ -5,12 +5,12 @@ namespace CA {
 AnimatedCA1D::AnimatedCA1D()
 {
     L = std::vector<C1D>(W);
-    for (int i = 0; i < W; i++)
+    for (uint32_t i = 0; i < W; i++)
         L[i] = C1D(i);
 
     Q = std::vector<State>(S);
     int d = 255 / (S - 1);
-    for (int s = 0; s < S; s++)
+    for (uint32_t s = 0; s < S; s++)
         Q[s] = GRAY(255 - s * d);
 }
 
@@ -24,13 +24,13 @@ void AnimatedCA1D::animate()
     SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, W, H);
     memset(cells, WHITE, W * H * sizeof(uint32_t));
 
-    int t = 0;
+    uint32_t t = 0;
     while (run)
     {
-        for (int i = 0; i < W; i++)
+        for (uint32_t i = 0; i < W; i++)
             cells[mod(t, H) * W + i] = phi(L[i], t);
 
-        SDL_UpdateTexture(texture, NULL, cells, W * sizeof(uint32_t));
+        SDL_UpdateTexture(texture, NULL, cells, W * static_cast<uint32_t>(sizeof(uint32_t)));
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_RenderPresent(renderer);

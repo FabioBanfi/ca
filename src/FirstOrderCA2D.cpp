@@ -2,7 +2,7 @@
 
 namespace CA {
 
-State FirstOrderCA2D::phi(C2D c, int t)
+State FirstOrderCA2D::phi(C2D c, uint32_t t)
 {
     if (t == 0)
     {
@@ -19,7 +19,7 @@ State FirstOrderCA2D::phi(C2D c, int t)
         }
 
         auto neighbours = N(c);
-        auto neigh_qs = std::vector<CA::State>();
+        auto neigh_qs = std::vector<State>();
         neigh_qs.reserve(d);
 
         for (auto neighbour : neighbours)

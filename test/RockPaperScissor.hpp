@@ -39,8 +39,8 @@ private:
 
     CA::State delta(CA::C2D c, std::vector<CA::State> qs)
     {
-        int q0 = qs[0] == Q[0] ? 0 : (qs[0] == Q[1] ? 1 : 2);
-        int q1 = qs[1] == Q[0] ? 0 : (qs[1] == Q[1] ? 1 : 2);
+        uint32_t q0 = qs[0] == Q[0] ? 0 : (qs[0] == Q[1] ? 1 : 2);
+        uint32_t q1 = qs[1] == Q[0] ? 0 : (qs[1] == Q[1] ? 1 : 2);
 
         return qs[q0 == CA::mod(q1 - 1, 3)];
     }

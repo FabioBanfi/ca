@@ -2,7 +2,7 @@
 
 namespace CA {
 
-State FirstOrderCA1D::phi(C1D c, int t)
+State FirstOrderCA1D::phi(C1D c, uint32_t t)
 {
     if (t == 0)
     {
