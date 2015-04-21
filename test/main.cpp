@@ -6,19 +6,6 @@
 #include "Snowflake.hpp"
 #include "RockPaperScissor.hpp"
 
-/*int main()
-{
-    boost::program_options::options_description desc("Allowed options");
-    //Rule30(799, 400).animate();
-    //Life(256, 256).animate();
-    //BriansBrain(256, 256).animate();
-    //LangtonsAnt(64, 64).animate();
-    //Snowflake(256, 256).animate();
-    RockPaperScissor(256, 256).animate();
-
-    return 0;
-}*/
-
 namespace
 {
     const size_t ERROR_IN_COMMAND_LINE = 1;
