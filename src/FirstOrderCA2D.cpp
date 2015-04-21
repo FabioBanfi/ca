@@ -1,34 +1,33 @@
 #include "../include/FirstOrderCA2D.h"
 
-namespace CA {
-
-State FirstOrderCA2D::phi(C2D c, uint32_t t)
+namespace CA
 {
-    if (t == 0)
+    State FirstOrderCA2D::phi(C2D c, uint32_t t)
     {
-        new_qs[c.x + offset * c.y] = q0(c);
-
-        return q0(c);
-    }
-    else
-    {
-        if (t != current_t)
+        if (t == 0)
         {
-            current_t = t;
-            old_qs = new_qs;
+            new_qs[c.x + offset * c.y] = q0(c);
+
+            return q0(c);
         }
+        else
+        {
+            if (t != current_t)
+            {
+                current_t = t;
+                old_qs = new_qs;
+            }
 
-        auto neighbours = N(c);
-        auto neigh_qs = std::vector<State>();
-        neigh_qs.reserve(d);
+            auto neighbours = N(c);
+            auto neigh_qs = std::vector<State>();
+            neigh_qs.reserve(d);
 
-        for (auto neighbour : neighbours)
-            neigh_qs.push_back(old_qs[neighbour.x + offset * neighbour.y]);
+            for (auto neighbour : neighbours)
+                neigh_qs.push_back(old_qs[neighbour.x + offset * neighbour.y]);
 
-        new_qs[c.x + offset * c.y] = delta(c, neigh_qs);
+            new_qs[c.x + offset * c.y] = delta(c, neigh_qs);
 
-        return delta(c, neigh_qs);
+            return delta(c, neigh_qs);
+        }
     }
 }
-
-} // CA

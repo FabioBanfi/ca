@@ -1,15 +1,16 @@
-#ifndef LANGTONS_S_ANT_H
-#define LANGTONS_S_ANT_H
+#ifndef LANGTON_S_ANT_H
+#define LANGTON_S_ANT_H
 
 #define RED(v) ((v) << 16)
 
+#include <cstdint>
 #include "../include/CA.h"
 
 class LangtonsAnt : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
 {
 public:
 
-    LangtonsAnt(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 10, delay, save), FirstOrderCA2D(W * H, W, 5)
+    LangtonsAnt(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) : AnimatedCA(W, H, 10, delay, save), FirstOrderCA2D(W * H, W, 5)
     {
         srand(time(NULL));
 
@@ -41,22 +42,22 @@ private:
 
     CA::State delta(CA::C2D c, std::vector<CA::State> qs)
     {
-        int w = Q[0];
-        int Nw = Q[1];
-        int Ew = Q[2];
-        int Sw = Q[3];
-        int Ww = Q[4];
-        int Nb = Q[5];
-        int Eb = Q[6];
-        int Sb = Q[7];
-        int Wb = Q[8];
-        int b = Q[9];
+        CA::State w = Q[0];
+        CA::State Nw = Q[1];
+        CA::State Ew = Q[2];
+        CA::State Sw = Q[3];
+        CA::State Ww = Q[4];
+        CA::State Nb = Q[5];
+        CA::State Eb = Q[6];
+        CA::State Sb = Q[7];
+        CA::State Wb = Q[8];
+        CA::State b = Q[9];
 
-        int q = qs[0];
-        int qN = qs[1];
-        int qE = qs[2];
-        int qS = qs[3];
-        int qW = qs[4];
+        CA::State q = qs[0];
+        CA::State qN = qs[1];
+        CA::State qE = qs[2];
+        CA::State qS = qs[3];
+        CA::State qW = qs[4];
 
         if (q == w)
         {
@@ -96,4 +97,4 @@ private:
     }
 };
 
-#endif // LANGTONS_S_ANT_H
+#endif // LANGTON_S_ANT_H

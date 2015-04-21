@@ -7,12 +7,9 @@ namespace CA {
 
 class AnimatedCA2D : virtual public AnimatedCA<C2D>
 {
-protected:
-
-    AnimatedCA2D();
-
 public:
 
+    AnimatedCA2D();
     void animate();
 };
 

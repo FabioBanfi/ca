@@ -1,13 +1,14 @@
 #ifndef LIFE_H
 #define LIFE_H
 
+#include <cstdint>
 #include "../include/CA.h"
 
 class Life : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
 {
 public:
 
-    Life(int W, int H, int delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), FirstOrderCA2D(W * H, W, 9)
+    Life(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) : AnimatedCA(W, H, 2, delay, save), FirstOrderCA2D(W * H, W, 9)
     {
         srand(time(NULL));
     }
@@ -19,8 +20,8 @@ private:
         auto result = std::vector<CA::C2D>();
 
         result.reserve(9);
-        for (int k = -1; k <= 1; k++)
-            for (int j = -1; j <= 1; j++)
+        for (int32_t k = -1; k <= 1; k++)
+            for (int32_t j = -1; j <= 1; j++)
                 result.push_back(L[CA::mod(c.x + j, W) + W * CA::mod(c.y + k, H)]);
 
         return result;
@@ -28,9 +29,9 @@ private:
 
     CA::State delta(CA::C2D c, std::vector<CA::State> qs)
     {
-        int sum = 0;
+        uint32_t sum = 0;
 
-        for (int i = 0; i < 9; i++)
+        for (uint32_t i = 0; i < 9; i++)
             if (i != 4)
                 if (qs[i] == Q[1])
                     sum++;
@@ -40,7 +41,7 @@ private:
 
     CA::State q0(CA::C2D c)
     {
-        return Q[(rand() % 2) * (rand() % 2)];
+        return Q[(rand() % 2)];
     }
 };
 

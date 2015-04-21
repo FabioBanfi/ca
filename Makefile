@@ -1,6 +1,6 @@
 NAME = ca
 CC = g++
-CFLAGS = -std=c++11 -O3 -lSDL2 -g -Wall
+CFLAGS = -std=c++11 -g -Wall -O3 -lSDL2 -lboost_program_options
 SRC = src
 BIN = bin
 TEST = test
