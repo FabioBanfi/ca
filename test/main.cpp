@@ -29,19 +29,19 @@ int main(int argc, char* argv[])
         bool save = false;
 
         namespace po = boost::program_options;
-        po::options_description desc("Options");
+        po::options_description desc("Available options");
         desc.add_options()
-                ("help",    "Print help messages")
-                ("r30",     "Wolfram's Rule 30 CA")
-                ("gol",     "Conway's Game of Life CA")
-                ("bb",      "Brian's Brain CA")
-                ("la",      "Langton's Ant CA")
-                ("sf",      "Wolfram's Snowflake CA")
-                ("rps",     "Rock/Paper/Scissor CA")
-                ("hca",     "Hybrid rules 90 and 150 CA")
+                ("help",    "Print help message")
+                ("r30",     "Display Wolfram's Rule 30 CA")
+                ("gol",     "Display Conway's Game of Life CA")
+                ("bb",      "Display Brian's Brain CA")
+                ("la",      "Display Langton's Ant CA")
+                ("sf",      "Display Wolfram's Snowflake CA")
+                ("rps",     "Display Rock/Paper/Scissor CA")
+                ("hca",     "Display Hybrid rules 90 and 150 CA")
                 ("w",       po::value<uint32_t>(), "Set window width")
                 ("h",       po::value<uint32_t>(), "Set window height")
-                ("d",       "Save images")
+                ("d",       po::value<uint32_t>(), "Set delay")
                 ("s",       "Save images")
                 ;
 
