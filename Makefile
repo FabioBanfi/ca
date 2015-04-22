@@ -1,21 +1,21 @@
-EXE 	= ca
-CC 		= g++
+EXE	= ca
+CC	= g++
 
-IFLAGS 	= -Iinclude
-CFLAGS 	= -Wall -Wextra -Wno-unused-parameter -std=c++11 -O3
-DFLAGS  = -g -DDEBUG -O0
-LFLAGS  = -lSDL2 -lboost_program_options
+IFLAGS	= -Iinclude
+CFLAGS	= -Wall -Wextra -Wno-unused-parameter -std=c++11 -O3
+DFLAGS	= -g -DDEBUG -O0
+LFLAGS	= -lSDL2 -lboost_program_options
 
-SRCDIR 	= src
-TESTDIR = test
-OBJDIR 	= obj
-BINDIR 	= bin
+SRCDIR	= src
+TESTDIR	= test
+OBJDIR	= obj
+BINDIR	= bin
 
-SRCS 	= $(shell find $(SRCDIR) -name '*.cpp')
+SRCS	= $(shell find $(SRCDIR) -name '*.cpp')
 TESTS	= $(shell find $(TESTDIR) -name '*.cpp')
-OBJS 	= $(subst $(SRCDIR)/,,$(SRCS:.cpp=.o)) $(subst $(TESTDIR)/,,$(TESTS:.cpp=.o))
+OBJS	= $(subst $(SRCDIR)/,,$(SRCS:.cpp=.o)) $(subst $(TESTDIR)/,,$(TESTS:.cpp=.o))
 
-MKDIR   = mkdir -p
+MKDIR	= mkdir -p
 
 all: directories $(EXE)
 
