@@ -9,7 +9,11 @@ namespace CA
     {
     protected:
 
-        FirstOrderCA1D(uint32_t size, uint32_t d) : d(d), current_t(0), old_qs(size), new_qs(size) { }
+        FirstOrderCA1D(uint32_t size, uint32_t d) :
+                d(d),
+                current_t(0),
+                old_qs(size),
+                new_qs(size) { }
         virtual State phi(C1D c, uint32_t t);
 
     private:

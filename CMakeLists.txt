@@ -4,22 +4,13 @@ project(ca)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-    include/AnimatedCA.hpp
-    include/AnimatedCA1D.h
-    include/AnimatedCA2D.h
-    include/CA.h
-    include/CellularAutomaton.h
-    include/FirstOrderCA1D.h
-    include/FirstOrderCA2D.h
     src/AnimatedCA1D.cpp
     src/AnimatedCA2D.cpp
     src/FirstOrderCA1D.cpp
     src/FirstOrderCA2D.cpp
-    test/BriansBrain.hpp
-    test/LangtonsAnt.hpp
-    test/Life.hpp
-    test/main.cpp
-    test/Rule30.hpp)
+    test/main.cpp)
+
+include_directories(include)
 
 add_executable(ca ${SOURCE_FILES})
 

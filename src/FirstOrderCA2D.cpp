@@ -1,4 +1,4 @@
-#include "../include/FirstOrderCA2D.h"
+#include "FirstOrderCA2D.h"
 
 namespace CA
 {

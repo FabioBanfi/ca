@@ -19,7 +19,13 @@ namespace CA
     public:
 
         AnimatedCA() { }
-        AnimatedCA(uint32_t W, uint32_t H, uint32_t S, uint32_t delay = 0, bool save = false) : W(W), H(H), S(S), delay(delay), save(save), cells(new uint32_t[W * H]) { }
+        AnimatedCA(uint32_t W, uint32_t H, uint32_t S, uint32_t delay = 0, bool save = false) :
+                W(W),
+                H(H),
+                S(S),
+                delay(delay),
+                save(save),
+                cells(new uint32_t[W * H]) { }
 
         virtual void animate() = 0;
 

@@ -1,13 +1,17 @@
 #ifndef BRIAN_S_BRAIN_H
 #define BRIAN_S_BRAIN_H
 
-#include "../include/CA.h"
+#include "CA.h"
 
-class BriansBrain : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
+class BriansBrain :
+        public CA::AnimatedCA2D,
+        public CA::FirstOrderCA2D
 {
 public:
 
-    BriansBrain(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) : AnimatedCA(W, H, 3, delay, save), FirstOrderCA2D(W * H, W, 9)
+    BriansBrain(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
+            AnimatedCA(W, H, 3, delay, save),
+            FirstOrderCA2D(W * H, W, 9)
     {
         srand(time(NULL));
     }

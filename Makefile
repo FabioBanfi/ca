@@ -1,31 +1,45 @@
-NAME = ca
-CC = g++
-CFLAGS = -std=c++11 -g -Wall -O3 -lSDL2 -lboost_program_options
-SRC = src
-BIN = bin
-TEST = test
-OBJ = obj
-OBJS = main.o AnimatedCA1D.o AnimatedCA2D.o FirstOrderCA1D.o FirstOrderCA2D.o
+EXE 	= ca
+CC 		= g++
 
-all: ca
+IFLAGS 	= -Iinclude
+CFLAGS 	= -Wall -Wextra -Wno-unused-parameter -std=c++11 -O3
+DFLAGS  = -g -DDEBUG -O0
+LFLAGS  = -lSDL2 -lboost_program_options
 
-ca: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJ)/*.o -o $(BIN)/$(NAME)
+SRCDIR 	= src
+TESTDIR = test
+OBJDIR 	= obj
+BINDIR 	= bin
 
-main.o: $(TEST)/main.cpp
-	$(CC) -c $(CFLAGS) $(TEST)/main.cpp -o $(OBJ)/main.o
+SRCS 	= $(shell find $(SRCDIR) -name '*.cpp')
+TESTS	= $(shell find $(TESTDIR) -name '*.cpp')
+OBJS 	= $(subst $(SRCDIR)/,,$(SRCS:.cpp=.o)) $(subst $(TESTDIR)/,,$(TESTS:.cpp=.o))
 
-AnimatedCA1D.o: $(SRC)/AnimatedCA1D.cpp
-	$(CC) -c $(CFLAGS) $(SRC)/AnimatedCA1D.cpp -o $(OBJ)/AnimatedCA1D.o
+MKDIR   = mkdir -p
 
-AnimatedCA2D.o: $(SRC)/AnimatedCA2D.cpp
-	$(CC) -c $(CFLAGS) $(SRC)/AnimatedCA2D.cpp -o $(OBJ)/AnimatedCA2D.o
+all: directories $(EXE)
 
-FirstOrderCA1D.o: $(SRC)/FirstOrderCA1D.cpp
-	$(CC) -c $(CFLAGS) $(SRC)/FirstOrderCA1D.cpp -o $(OBJ)/FirstOrderCA1D.o
+$(EXE): $(OBJS)
+	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $(OBJDIR)/*.o -o$(BINDIR)/$(EXE)
 
-FirstOrderCA2D.o: $(SRC)/FirstOrderCA2D.cpp
-	$(CC) -c $(CFLAGS) $(SRC)/FirstOrderCA2D.cpp -o $(OBJ)/FirstOrderCA2D.o
+%.o: $(TESTDIR)/%.cpp
+	$(CC) -c $(CFLAGS) $(IFLAGS) $< -o$(OBJDIR)/$@
+
+%.o: $(SRCDIR)/%.cpp
+	$(CC) -c $(CFLAGS) $(IFLAGS) $< -o$(OBJDIR)/$@
+
+debug:
+	@$(MAKE) CFLAGS="$(CFLAGS) $(DFLAGS)"
+
+directories: ${BINDIR} ${OBJDIR}
+
+${BINDIR}:
+	${MKDIR} ${BINDIR}
+
+${OBJDIR}:
+	${MKDIR} ${OBJDIR}
 
 clean:
-	rm -rf $(OBJ)/*.o $(BIN)/$(NAME)
+	rm -rf $(OBJDIR) $(BINDIR)
+
+.PHONY: all debug directories clean

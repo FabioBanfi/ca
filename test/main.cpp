@@ -5,6 +5,7 @@
 #include "LangtonsAnt.hpp"
 #include "Snowflake.hpp"
 #include "RockPaperScissor.hpp"
+#include "HybridRules90_150.hpp"
 
 namespace
 {
@@ -13,7 +14,7 @@ namespace
     const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
     try
     {
@@ -34,7 +35,8 @@ int main(int argc, char** argv)
                 ("bb",   "Brian's Brain CA")
                 ("la",   "Langton's Ant CA")
                 ("sf",   "Wolfram's Snowflake CA")
-                ("rps",  "Rock/Paper/Scissor CA");
+                ("rps",  "Rock/Paper/Scissor CA")
+                ("hca",  "Hybrid rules 90 and 150 CA");
 
         po::variables_map vm;
         try
@@ -79,6 +81,11 @@ int main(int argc, char** argv)
             {
                 ca2d = new RockPaperScissor(w2d, h2d);
                 d = 2;
+            }
+            else if (vm.count("hca"))
+            {
+                ca1d = new HybridRules51_153(w1d, h1d);
+                d = 1;
             }
 
             po::notify(vm);

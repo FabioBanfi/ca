@@ -9,7 +9,12 @@ namespace CA
     {
     protected:
 
-        FirstOrderCA2D(uint32_t size, uint32_t offset, uint32_t d) : offset(offset), d(d), current_t(0), old_qs(size), new_qs(size) { }
+        FirstOrderCA2D(uint32_t size, uint32_t offset, uint32_t d) :
+                offset(offset),
+                d(d),
+                current_t(0),
+                old_qs(size),
+                new_qs(size) { }
         virtual State phi(C2D c, uint32_t t);
 
     private:

@@ -1,6 +1,6 @@
 #include <iomanip>
 #include <sstream>
-#include "../include/AnimatedCA2D.h"
+#include "AnimatedCA2D.h"
 
 namespace CA
 {

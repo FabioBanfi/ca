@@ -1,21 +1,29 @@
-#ifndef RULE_30_H
-#define RULE_30_H
+#ifndef HYBRID_RULES_51_153_H
+#define HYBRID_RULES_51_153_H
 
 #include <cstdint>
 #include "CA.h"
 
-class Rule30 :
+class HybridRules51_153 :
         public CA::AnimatedCA1D,
         public CA::FirstOrderCA1D
 {
 public:
 
-    Rule30(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
+    HybridRules51_153(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
             AnimatedCA(W, H, 2, delay, save),
-            FirstOrderCA1D(W, 3)
-    { }
+            FirstOrderCA1D(W, 3),
+            rule(std::vector<bool>(W))
+    {
+        for (uint32_t i = 0; i < W; i++)
+        {
+            rule[i] = rand() % 2;
+        }
+    }
 
 private:
+
+    std::vector<bool> rule;
 
     std::vector<CA::C1D> N(CA::C1D c)
     {
@@ -34,13 +42,13 @@ private:
         CA::State qi = qs[1] + 1;
         CA::State qr = qs[2] + 1;
 
-        return Q[CA::mod(qi + ql + qr + qi * qr, 2)];
+        return Q[CA::mod(ql + rule[c.i] * qi + qr, 2)];
     }
 
     CA::State q0(CA::C1D c)
     {
-        return Q[c.i == W / 2 ? 1 : 0];
+        return Q[rand() % 2];
     }
 };
 
-#endif // RULE_30_H
+#endif // HYBRID_RULES_51_153_H

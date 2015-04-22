@@ -4,13 +4,17 @@
 #define RED(v) ((v) << 16)
 
 #include <cstdint>
-#include "../include/CA.h"
+#include "CA.h"
 
-class LangtonsAnt : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
+class LangtonsAnt :
+        public CA::AnimatedCA2D,
+        public CA::FirstOrderCA2D
 {
 public:
 
-    LangtonsAnt(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) : AnimatedCA(W, H, 10, delay, save), FirstOrderCA2D(W * H, W, 5)
+    LangtonsAnt(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
+            AnimatedCA(W, H, 10, delay, save),
+            FirstOrderCA2D(W * H, W, 5)
     {
         srand(time(NULL));
 
