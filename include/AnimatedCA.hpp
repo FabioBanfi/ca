@@ -29,13 +29,14 @@ namespace CA
 
         virtual void animate() = 0;
 
-    protected:
-
         uint32_t W;
         uint32_t H;
         uint32_t S;
         uint32_t delay;
         bool save;
+
+    protected:
+
         uint32_t* cells;
 
         static int32_t events_thread(void* ptr)

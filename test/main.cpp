@@ -25,18 +25,25 @@ int main(int argc, char* argv[])
         uint32_t h1d = 400;
         uint32_t w2d = 256;
         uint32_t h2d = 256;
+        uint32_t delay = 0;
+        bool save = false;
 
         namespace po = boost::program_options;
         po::options_description desc("Options");
         desc.add_options()
-                ("help", "Print help messages")
-                ("r30",  "Wolfram's Rule 30 CA")
-                ("gol",  "Conway's Game of Life CA")
-                ("bb",   "Brian's Brain CA")
-                ("la",   "Langton's Ant CA")
-                ("sf",   "Wolfram's Snowflake CA")
-                ("rps",  "Rock/Paper/Scissor CA")
-                ("hca",  "Hybrid rules 90 and 150 CA");
+                ("help",    "Print help messages")
+                ("r30",     "Wolfram's Rule 30 CA")
+                ("gol",     "Conway's Game of Life CA")
+                ("bb",      "Brian's Brain CA")
+                ("la",      "Langton's Ant CA")
+                ("sf",      "Wolfram's Snowflake CA")
+                ("rps",     "Rock/Paper/Scissor CA")
+                ("hca",     "Hybrid rules 90 and 150 CA")
+                ("w",       po::value<uint32_t>(), "Set window width")
+                ("h",       po::value<uint32_t>(), "Set window height")
+                ("d",       "Save images")
+                ("s",       "Save images")
+                ;
 
         po::variables_map vm;
         try
@@ -52,7 +59,8 @@ int main(int argc, char* argv[])
 
                 return SUCCESS;
             }
-            else if (vm.count("r30"))
+
+            if (vm.count("r30"))
             {
                 ca1d = new Rule30(w1d, h1d);
                 d = 1;
@@ -88,6 +96,23 @@ int main(int argc, char* argv[])
                 d = 1;
             }
 
+            if (vm.count("w"))
+            {
+                w1d = w2d = vm["w"].as<uint32_t>();
+            }
+            if (vm.count("h"))
+            {
+                h1d = h2d = vm["h"].as<uint32_t>();
+            }
+            if (vm.count("d"))
+            {
+                delay = vm["d"].as<uint32_t>();
+            }
+            if (vm.count("s"))
+            {
+                save = true;
+            }
+
             po::notify(vm);
         }
         catch(po::error& e)
@@ -101,11 +126,21 @@ int main(int argc, char* argv[])
         switch(d)
         {
             case 1:
+                ca1d->W = w1d;
+                ca1d->H = h1d;
+                ca1d->delay = delay;
+                ca1d->save = save;
                 ca1d->animate();
                 break;
+
             case 2:
+                ca2d->W = w2d;
+                ca2d->H = h2d;
+                ca2d->delay = delay;
+                ca2d->save = save;
                 ca2d->animate();
                 break;
+
             default:
                 std::cout << std::endl;
                 std::cout << "CA Visualizer - A generic cellular automata animation utility" << std::endl;
