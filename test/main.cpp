@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
         namespace po = boost::program_options;
         po::options_description desc("Available options");
         desc.add_options()
-                ("help",    "Print help message")
+                ("help,H",  "Print help message")
                 ("r30",     "Display Wolfram's Rule 30 CA")
                 ("gol",     "Display Conway's Game of Life CA")
                 ("bb",      "Display Brian's Brain CA")
@@ -39,10 +39,10 @@ int main(int argc, char* argv[])
                 ("sf",      "Display Wolfram's Snowflake CA")
                 ("rps",     "Display Rock/Paper/Scissor CA")
                 ("hca",     "Display Hybrid rules 90 and 150 CA")
-                ("w",       po::value<uint32_t>(), "Set window width")
-                ("h",       po::value<uint32_t>(), "Set window height")
-                ("d",       po::value<uint32_t>(), "Set delay")
-                ("s",       "Save images")
+                ("width,w", po::value<uint32_t>(), "Set window width")
+                ("height,h",po::value<uint32_t>(), "Set window height")
+                ("delay,d", po::value<uint32_t>(), "Set delay (in milliseconds)")
+                ("save,s",  "Save images")
                 ;
 
         po::variables_map vm;
@@ -60,19 +60,19 @@ int main(int argc, char* argv[])
                 return SUCCESS;
             }
 
-            if (vm.count("w"))
+            if (vm.count("width"))
             {
-                w1d = w2d = vm["w"].as<uint32_t>();
+                w1d = w2d = vm["width"].as<uint32_t>();
             }
-            if (vm.count("h"))
+            if (vm.count("height"))
             {
-                h1d = h2d = vm["h"].as<uint32_t>();
+                h1d = h2d = vm["height"].as<uint32_t>();
             }
-            if (vm.count("d"))
+            if (vm.count("delay"))
             {
-                delay = vm["d"].as<uint32_t>();
+                delay = vm["delay"].as<uint32_t>();
             }
-            if (vm.count("s"))
+            if (vm.count("save"))
             {
                 save = true;
             }
