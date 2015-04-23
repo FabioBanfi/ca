@@ -23,8 +23,8 @@ int main(int argc, char* argv[])
         CA::AnimatedCA2D* ca2d = nullptr;
         uint32_t w1d = 799;
         uint32_t h1d = 400;
-        uint32_t w2d = 256;
-        uint32_t h2d = 256;
+        uint32_t w2d = 200;
+        uint32_t h2d = 200;
         uint32_t delay = 0;
         bool save = false;
 
@@ -60,42 +60,6 @@ int main(int argc, char* argv[])
                 return SUCCESS;
             }
 
-            if (vm.count("r30"))
-            {
-                ca1d = new Rule30(w1d, h1d);
-                d = 1;
-            }
-            else if (vm.count("gol"))
-            {
-                ca2d = new Life(w2d, h2d);
-                d = 2;
-            }
-            else if (vm.count("bb"))
-            {
-                ca2d = new BriansBrain(w2d, h2d);
-                d = 2;
-            }
-            else if (vm.count("la"))
-            {
-                ca2d = new LangtonsAnt(w2d, h2d);
-                d = 2;
-            }
-            else if (vm.count("sf"))
-            {
-                ca2d = new Snowflake(w2d, h2d);
-                d = 2;
-            }
-            else if (vm.count("rps"))
-            {
-                ca2d = new RockPaperScissor(w2d, h2d);
-                d = 2;
-            }
-            else if (vm.count("hca"))
-            {
-                ca1d = new HybridRules51_153(w1d, h1d);
-                d = 1;
-            }
-
             if (vm.count("w"))
             {
                 w1d = w2d = vm["w"].as<uint32_t>();
@@ -113,6 +77,42 @@ int main(int argc, char* argv[])
                 save = true;
             }
 
+            if (vm.count("r30"))
+            {
+                ca1d = new Rule30(w1d, h1d, delay, save);
+                d = 1;
+            }
+            else if (vm.count("gol"))
+            {
+                ca2d = new Life(w2d, h2d, delay, save);
+                d = 2;
+            }
+            else if (vm.count("bb"))
+            {
+                ca2d = new BriansBrain(w2d, h2d, delay, save);
+                d = 2;
+            }
+            else if (vm.count("la"))
+            {
+                ca2d = new LangtonsAnt(w2d, h2d, delay, save);
+                d = 2;
+            }
+            else if (vm.count("sf"))
+            {
+                ca2d = new Snowflake(w2d, h2d, delay, save);
+                d = 2;
+            }
+            else if (vm.count("rps"))
+            {
+                ca2d = new RockPaperScissor(w2d, h2d, delay, save);
+                d = 2;
+            }
+            else if (vm.count("hca"))
+            {
+                ca1d = new HybridRules51_153(w1d, h1d, delay, save);
+                d = 1;
+            }
+
             po::notify(vm);
         }
         catch(po::error& e)
@@ -126,18 +126,10 @@ int main(int argc, char* argv[])
         switch(d)
         {
             case 1:
-                ca1d->W = w1d;
-                ca1d->H = h1d;
-                ca1d->delay = delay;
-                ca1d->save = save;
                 ca1d->animate();
                 break;
 
             case 2:
-                ca2d->W = w2d;
-                ca2d->H = h2d;
-                ca2d->delay = delay;
-                ca2d->save = save;
                 ca2d->animate();
                 break;
 
