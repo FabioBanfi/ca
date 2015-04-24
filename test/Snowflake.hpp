@@ -17,7 +17,7 @@ public:
 
 private:
 
-    std::vector<CA::C2D> N(CA::C2D c)
+    std::vector<CA::C2D> N(const CA::C2D& c)
     {
         auto result = std::vector<CA::C2D>();
 
@@ -30,7 +30,7 @@ private:
         return result;
     }
 
-    CA::State delta(CA::C2D c, std::vector<CA::State> qs)
+    CA::State delta(const CA::C2D& c, const std::vector<CA::State>& qs)
     {
         int sum = 0;
 
@@ -42,7 +42,7 @@ private:
         return Q[qs[3] == Q[1] || (qs[3] == Q[0] && sum == 1)];
     }
 
-    CA::State q0(CA::C2D c)
+    CA::State q0(const CA::C2D& c)
     {
         return Q[c.x == W / 2 && c.y == H / 2];
     }

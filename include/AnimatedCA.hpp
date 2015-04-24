@@ -2,6 +2,7 @@
 #define ANIMATED_CA_H
 
 #include <iostream>
+#include <cstdint>
 #include <SDL2/SDL.h>
 #include "CellularAutomaton.h"
 

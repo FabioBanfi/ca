@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iomanip>
 #include <sstream>
 #include "AnimatedCA2D.h"

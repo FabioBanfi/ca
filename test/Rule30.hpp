@@ -17,7 +17,7 @@ public:
 
 private:
 
-    std::vector<CA::C1D> N(CA::C1D c)
+    std::vector<CA::C1D> N(const CA::C1D& c)
     {
         auto result = std::vector<CA::C1D>(3);
 
@@ -28,7 +28,7 @@ private:
         return result;
     }
 
-    CA::State delta(CA::C1D c, std::vector<CA::State> qs)
+    CA::State delta(const CA::C1D& c, const std::vector<CA::State>& qs)
     {
         CA::State ql = qs[0] + 1;
         CA::State qi = qs[1] + 1;
@@ -37,7 +37,7 @@ private:
         return Q[CA::mod(qi + ql + qr + qi * qr, 2)];
     }
 
-    CA::State q0(CA::C1D c)
+    CA::State q0(const CA::C1D& c)
     {
         return Q[c.i == W / 2 ? 1 : 0];
     }

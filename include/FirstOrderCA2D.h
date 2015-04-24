@@ -1,6 +1,7 @@
 #ifndef FIRST_ORDER_CA_2D_H
 #define FIRST_ORDER_CA_2D_H
 
+#include <cstdint>
 #include "CellularAutomaton.h"
 
 namespace CA
@@ -14,8 +15,9 @@ namespace CA
                 d(d),
                 current_t(0),
                 old_qs(size),
-                new_qs(size) { }
-        virtual State phi(C2D c, uint32_t t);
+                new_qs(size)
+        { }
+        virtual State phi(const C2D&, uint32_t);
 
     private:
 

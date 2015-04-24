@@ -6,20 +6,22 @@
 
 class Life :
         public CA::AnimatedCA2D,
-        public CA::FirstOrderCA2D
+        public CA::FirstOrderCA2D,
+        public CA::RandomInitCA<CA::C2D>
 {
 public:
 
     Life(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
             AnimatedCA(W, H, 2, delay, save),
-            FirstOrderCA2D(W * H, W, 9)
+            FirstOrderCA2D(W * H, W, 9),
+            RandomInitCA(2)
     {
         srand(time(NULL));
     }
 
 private:
 
-    std::vector<CA::C2D> N(CA::C2D c)
+    std::vector<CA::C2D> N(const CA::C2D& c)
     {
         auto result = std::vector<CA::C2D>();
 
@@ -31,7 +33,7 @@ private:
         return result;
     }
 
-    CA::State delta(CA::C2D c, std::vector<CA::State> qs)
+    CA::State delta(const CA::C2D& c, const std::vector<CA::State>& qs)
     {
         uint32_t sum = 0;
 
@@ -41,11 +43,6 @@ private:
                     sum++;
 
         return Q[(qs[4] == Q[1] && (sum == 2 || sum == 3)) || (qs[4] == Q[0] && sum == 3)];
-    }
-
-    CA::State q0(CA::C2D c)
-    {
-        return Q[(rand() % 2)];
     }
 };
 

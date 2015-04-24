@@ -8,5 +8,6 @@
 #include "FirstOrderCA1D.h"
 #include "FirstOrderCA2D.h"
 #include "SecondOrderCA1D.h"
+#include "RandomInitCA.hpp"
 
 #endif // CA_H

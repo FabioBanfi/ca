@@ -4,16 +4,19 @@
 #include <cstdint>
 #include <random>
 #include "CA.h"
+#include "RandomCA1D.hpp"
 
 class RockPaperScissor :
         public CA::AnimatedCA2D,
-        public CA::FirstOrderCA2D
+        public CA::FirstOrderCA2D,
+        public CA::RandomInitCA<CA::C2D>
 {
 public:
 
     RockPaperScissor(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
             AnimatedCA(W, H, 3, delay, save),
             FirstOrderCA2D(W * H, W, 2),
+            RandomInitCA(3),
             gen(rd()),
             dis(0, 7)
     {
@@ -26,7 +29,7 @@ private:
     std::mt19937 gen;
     std::uniform_int_distribution<> dis;
 
-    std::vector<CA::C2D> N(CA::C2D c)
+    std::vector<CA::C2D> N(const CA::C2D& c)
     {
         auto result = std::vector<CA::C2D>();
         auto moore = std::vector<CA::C2D>();
@@ -44,7 +47,7 @@ private:
         return result;
     }
 
-    CA::State delta(CA::C2D c, std::vector<CA::State> qs)
+    CA::State delta(const CA::C2D& c, const std::vector<CA::State>& qs)
     {
         CA::State q0 = qs[0] == Q[0] ? 0 : (qs[0] == Q[1] ? 1 : 2);
         CA::State q1 = qs[1] == Q[0] ? 0 : (qs[1] == Q[1] ? 1 : 2);
@@ -52,7 +55,7 @@ private:
         return qs[q0 == CA::mod(q1 - 1, 3)];
     }
 
-    CA::State q0(CA::C2D c)
+    CA::State q0(const CA::C2D& c)
     {
         return Q[(rand() % 3)];
     }
