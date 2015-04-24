@@ -6,6 +6,7 @@
 #include "Snowflake.hpp"
 #include "RockPaperScissor.hpp"
 #include "HybridRules90_150.hpp"
+#include "SecondOrderRule150.hpp"
 
 namespace
 {
@@ -38,7 +39,8 @@ int main(int argc, char* argv[])
                 ("la",      "Display Langton's Ant CA")
                 ("sf",      "Display Wolfram's Snowflake CA")
                 ("rps",     "Display Rock/Paper/Scissor CA")
-                ("hca",     "Display Hybrid rules 90 and 150 CA")
+                ("hca",     "Display Hybrid Rules 90 and 150 CA")
+                ("soca",    "Display Second Order Rule 150 CA")
                 ("width,w", po::value<uint32_t>(), "Set window width")
                 ("height,h",po::value<uint32_t>(), "Set window height")
                 ("delay,d", po::value<uint32_t>(), "Set delay (in milliseconds)")
@@ -110,6 +112,11 @@ int main(int argc, char* argv[])
             else if (vm.count("hca"))
             {
                 ca1d = new HybridRules51_153(w1d, h1d, delay, save);
+                d = 1;
+            }
+            else if (vm.count("soca"))
+            {
+                ca1d = new SecondOrderRule150(w1d, h1d, delay, save);
                 d = 1;
             }
 

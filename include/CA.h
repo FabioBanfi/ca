@@ -7,5 +7,6 @@
 #include "AnimatedCA2D.h"
 #include "FirstOrderCA1D.h"
 #include "FirstOrderCA2D.h"
+#include "SecondOrderCA1D.h"
 
 #endif // CA_H
