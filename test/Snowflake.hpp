@@ -4,13 +4,17 @@
 #include <cstdint>
 #include "CA.h"
 
-class Snowflake : public CA::AnimatedCA2D, public CA::FirstOrderCA2D
+class Snowflake :
+        public CA::AnimatedCA2D,
+        public CA::FirstOrderCA2D,
+        public CA::CentralInitCA2D
 {
 public:
 
     Snowflake(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
             AnimatedCA(W, H, 2, delay, save),
-            FirstOrderCA2D(W * H, W, 7)
+            FirstOrderCA2D(W * H, W, 7),
+            CentralInitCA2D(W, H, 1, 0)
     {
         srand(time(NULL));
     }
@@ -40,11 +44,6 @@ private:
                     sum++;
 
         return Q[qs[3] == Q[1] || (qs[3] == Q[0] && sum == 1)];
-    }
-
-    CA::State q0(const CA::C2D& c)
-    {
-        return Q[c.x == W / 2 && c.y == H / 2];
     }
 };
 

@@ -8,13 +8,15 @@
 
 class LangtonsAnt :
         public CA::AnimatedCA2D,
-        public CA::FirstOrderCA2D
+        public CA::FirstOrderCA2D,
+        public CA::CentralInitCA2D
 {
 public:
 
     LangtonsAnt(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
             AnimatedCA(W, H, 10, delay, save),
-            FirstOrderCA2D(W * H, W, 5)
+            FirstOrderCA2D(W * H, W, 5),
+            CentralInitCA2D(W, H, 1, 0)
     {
         srand(time(NULL));
 
@@ -93,11 +95,6 @@ private:
         {
             return q == Nb || q == Sb || q == Wb || q == Eb ? w : b;
         }
-    }
-
-    CA::State q0(const CA::C2D& c)
-    {
-        return Q[c.x == W / 2 && c.y == H / 2];
     }
 };
 

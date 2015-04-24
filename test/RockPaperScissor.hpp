@@ -54,11 +54,6 @@ private:
 
         return qs[q0 == CA::mod(q1 - 1, 3)];
     }
-
-    CA::State q0(const CA::C2D& c)
-    {
-        return Q[(rand() % 3)];
-    }
 };
 
 #endif // ROCK_PAPER_SCISSOR_H

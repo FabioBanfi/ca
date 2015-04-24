@@ -9,5 +9,7 @@
 #include "FirstOrderCA2D.h"
 #include "SecondOrderCA1D.h"
 #include "RandomInitCA.hpp"
+#include "CentralInitCA1D.h"
+#include "CentralInitCA2D.h"
 
 #endif // CA_H

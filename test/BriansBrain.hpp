@@ -44,11 +44,6 @@ private:
 
         return Q[qs[4] == Q[0] && sum == 2 ? 2 : qs[4] == Q[2]];
     }
-
-    CA::State q0(const CA::C2D& c)
-    {
-        return Q[(rand() % 3)];
-    }
 };
 
 #endif // BRIAN_S_BRAIN_H

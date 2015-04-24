@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
         CA::AnimatedCA2D* ca2d = nullptr;
         uint32_t w1d = 799;
         uint32_t h1d = 400;
-        uint32_t w2d = 200;
-        uint32_t h2d = 200;
+        uint32_t w2d = 256;
+        uint32_t h2d = 256;
         uint32_t delay = 0;
         bool save = false;
 

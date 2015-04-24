@@ -1,5 +1,5 @@
-#ifndef RANDOM_INIT_CA_1D_H
-#define RANDOM_INIT_CA_1D_H
+#ifndef RANDOM_INIT_CA_H
+#define RANDOM_INIT_CA_H
 
 #include <cstdint>
 #include <random>
@@ -29,4 +29,4 @@ namespace CA
     };
 }
 
-#endif // RANDOM_INIT_CA_1D_H
+#endif // RANDOM_INIT_CA_H
