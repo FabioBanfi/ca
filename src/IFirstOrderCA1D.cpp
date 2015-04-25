@@ -1,9 +1,9 @@
 #include <cstdint>
-#include "FirstOrderCA1D.h"
+#include "IFirstOrderCA1D.h"
 
 namespace CA
 {
-    State FirstOrderCA1D::phi(const C1D& c, uint32_t t)
+    State IFirstOrderCA1D::phi(const C1D& c, uint32_t t)
     {
         if (t == 0)
         {

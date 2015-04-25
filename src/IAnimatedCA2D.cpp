@@ -1,15 +1,15 @@
 #include <cstdint>
 #include <iomanip>
 #include <sstream>
-#include "AnimatedCA1D.h"
+#include "IAnimatedCA2D.h"
 
 namespace CA
 {
-    AnimatedCA1D::AnimatedCA1D()
+    IAnimatedCA2D::IAnimatedCA2D()
     {
-        L = std::vector<C1D>(W);
-        for (uint32_t i = 0; i < W; i++)
-            L[i] = C1D(i);
+        L = std::vector<C2D>(W * H);
+        for (uint32_t i = 0; i < W * H; i++)
+            L[i] = (C2D(mod(i, W), (i - mod(i, W)) / W));
 
         Q = std::vector<State>(S);
         int d = 255 / (S - 1);
@@ -17,7 +17,7 @@ namespace CA
             Q[s] = GRAY(255 - s * d);
     }
 
-    void AnimatedCA1D::animate()
+    void IAnimatedCA2D::animate()
     {
         SDL_Init(SDL_INIT_VIDEO);
         SDL_CreateThread(events_thread, NULL, (void*)NULL);
@@ -25,13 +25,12 @@ namespace CA
         SDL_Window* window = SDL_CreateWindow("CA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, W, H, 0);
         SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
         SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, W, H);
-        memset(cells, WHITE, W * H * sizeof(uint32_t));
 
         uint32_t t = 0;
         while (run)
         {
-            for (uint32_t i = 0; i < W; i++)
-                cells[mod(t, H) * W + i] = phi(L[i], t);
+            for (uint32_t i = 0; i < W * H; i++)
+                cells[i] = phi(L[i], t);
 
             SDL_UpdateTexture(texture, NULL, cells, W * static_cast<uint32_t>(sizeof(uint32_t)));
             SDL_RenderClear(renderer);
@@ -40,10 +39,10 @@ namespace CA
             SDL_Delay(delay);
 
             t++;
-            if (t % H == 0 && save)
+            if (save)
             {
                 std::stringstream ss;
-                ss << std::setw(3) << std::setfill('0') << t / H;
+                ss << std::setw(4) << std::setfill('0') << t;
                 saveScreenshotBMP(ss.str().append(std::string(".bmp")), window, renderer);
             }
         }

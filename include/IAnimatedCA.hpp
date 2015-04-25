@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdint>
 #include <SDL2/SDL.h>
-#include "CellularAutomaton.h"
+#include "ICellularAutomaton.h"
 
 #define BLACK 0x0U
 #define WHITE 0xFFU
@@ -15,12 +15,12 @@ namespace CA
     static bool run = true;
 
     template <class Cell>
-    class AnimatedCA : virtual public CellularAutomaton<Cell>
+    class IAnimatedCA : virtual public ICellularAutomaton<Cell>
     {
     public:
 
-        AnimatedCA() { }
-        AnimatedCA(uint32_t W, uint32_t H, uint32_t S, uint32_t delay = 0, bool save = false) :
+        IAnimatedCA() { }
+        IAnimatedCA(uint32_t W, uint32_t H, uint32_t S, uint32_t delay = 0, bool save = false) :
                 W(W),
                 H(H),
                 S(S),

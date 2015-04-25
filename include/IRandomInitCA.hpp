@@ -3,16 +3,16 @@
 
 #include <cstdint>
 #include <random>
-#include "CellularAutomaton.h"
+#include "ICellularAutomaton.h"
 
 namespace CA
 {
     template <class Cell>
-    class RandomInitCA : virtual public CellularAutomaton<Cell>
+    class IRandomInitCA : virtual public ICellularAutomaton<Cell>
     {
     protected:
 
-        RandomInitCA(uint32_t s) :
+        IRandomInitCA(uint32_t s) :
                 gen(rd()),
                 dis(0, s - 1)
         { }

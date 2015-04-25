@@ -2,15 +2,15 @@
 #define FIRST_ORDER_CA_2D_H
 
 #include <cstdint>
-#include "CellularAutomaton.h"
+#include "ICellularAutomaton.h"
 
 namespace CA
 {
-    class FirstOrderCA2D : virtual public CellularAutomaton<C2D>
+    class IFirstOrderCA2D : virtual public ICellularAutomaton<C2D>
     {
     protected:
 
-        FirstOrderCA2D(uint32_t size, uint32_t offset, uint32_t d) :
+        IFirstOrderCA2D(uint32_t size, uint32_t offset, uint32_t d) :
                 offset(offset),
                 d(d),
                 current_t(0),

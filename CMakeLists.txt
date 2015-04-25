@@ -4,10 +4,13 @@ project(ca)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-    src/AnimatedCA1D.cpp
-    src/AnimatedCA2D.cpp
-    src/FirstOrderCA1D.cpp
-    src/FirstOrderCA2D.cpp
+    src/IAnimatedCA1D.cpp
+    src/IAnimatedCA2D.cpp
+    src/IFirstOrderCA1D.cpp
+    src/IFirstOrderCA2D.cpp
+    src/ICentralInitCA1D.cpp
+    src/ICentralInitCA2D.cpp
+    src/ISecondOrderCA1D.cpp
     test/main.cpp)
 
 include_directories(include)

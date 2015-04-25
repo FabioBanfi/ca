@@ -41,7 +41,7 @@ namespace CA
     inline std::ostream& operator<<(std::ostream& os, const C2D& c) { return os << "<" << c.x << ", " << c.y << ">"; }
 
     template <class Cell>
-    class CellularAutomaton
+    class ICellularAutomaton
     {
     protected:
 

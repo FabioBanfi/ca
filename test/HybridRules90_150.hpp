@@ -5,16 +5,16 @@
 #include "CA.h"
 
 class HybridRules51_153 :
-        public CA::AnimatedCA1D,
-        public CA::FirstOrderCA1D,
-        public CA::RandomInitCA<CA::C1D>
+        public CA::IAnimatedCA1D,
+        public CA::IFirstOrderCA1D,
+        public CA::IRandomInitCA<CA::C1D>
 {
 public:
 
     HybridRules51_153(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            AnimatedCA(W, H, 2, delay, save),
-            FirstOrderCA1D(W, 2),
-            RandomInitCA(2),
+            IAnimatedCA(W, H, 2, delay, save),
+            IFirstOrderCA1D(W, 2),
+            IRandomInitCA(2),
             rule(std::vector<bool>(W))
     {
         for (uint32_t i = 0; i < W; i++)

@@ -1,15 +1,15 @@
 #ifndef ANIMATED_CA_1D_H
 #define ANIMATED_CA_1D_H
 
-#include "AnimatedCA.hpp"
+#include "IAnimatedCA.hpp"
 
 namespace CA {
 
-class AnimatedCA1D : virtual public AnimatedCA<C1D>
+class IAnimatedCA1D : virtual public IAnimatedCA<C1D>
 {
 public:
 
-    AnimatedCA1D();
+    IAnimatedCA1D();
     void animate();
 };
 

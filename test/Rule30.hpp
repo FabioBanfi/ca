@@ -5,16 +5,16 @@
 #include "CA.h"
 
 class Rule30 :
-        public CA::AnimatedCA1D,
-        public CA::FirstOrderCA1D,
-        public CA::CentralInitCA1D
+        public CA::IAnimatedCA1D,
+        public CA::IFirstOrderCA1D,
+        public CA::ICentralInitCA1D
 {
 public:
 
     Rule30(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            AnimatedCA(W, H, 2, delay, save),
-            FirstOrderCA1D(W, 3),
-            CentralInitCA1D(W, 1, 0)
+            IAnimatedCA(W, H, 2, delay, save),
+            IFirstOrderCA1D(W, 3),
+            ICentralInitCA1D(W, 1, 0)
     { }
 
 private:

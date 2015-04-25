@@ -21,8 +21,8 @@ int main(int argc, char* argv[])
     try
     {
         uint32_t d = 0;
-        CA::AnimatedCA1D* ca1d = nullptr;
-        CA::AnimatedCA2D* ca2d = nullptr;
+        CA::IAnimatedCA1D * ca1d = nullptr;
+        CA::IAnimatedCA2D * ca2d = nullptr;
         uint32_t w1d = 799;
         uint32_t h1d = 400;
         uint32_t w2d = 256;

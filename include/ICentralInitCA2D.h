@@ -3,15 +3,15 @@
 
 #include <cstdint>
 #include <random>
-#include "CellularAutomaton.h"
+#include "ICellularAutomaton.h"
 
 namespace CA
 {
-    class CentralInitCA2D : virtual public CellularAutomaton<C2D>
+    class ICentralInitCA2D : virtual public ICellularAutomaton<C2D>
     {
     protected:
 
-        CentralInitCA2D(uint32_t W, uint32_t H, uint32_t centre, uint32_t outer) :
+        ICentralInitCA2D(uint32_t W, uint32_t H, uint32_t centre, uint32_t outer) :
                 _W(W),
                 _H(H),
                 centre(centre),

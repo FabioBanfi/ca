@@ -2,15 +2,15 @@
 #define CENTRAL_INIT_CA_1D_H
 
 #include <cstdint>
-#include "CellularAutomaton.h"
+#include "ICellularAutomaton.h"
 
 namespace CA
 {
-    class CentralInitCA1D : virtual public CellularAutomaton<C1D>
+    class ICentralInitCA1D : virtual public ICellularAutomaton<C1D>
     {
     protected:
 
-        CentralInitCA1D(uint32_t W, uint32_t centre, uint32_t outer) :
+        ICentralInitCA1D(uint32_t W, uint32_t centre, uint32_t outer) :
                 _W(W),
                 centre(centre),
                 outer(outer)

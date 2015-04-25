@@ -2,15 +2,15 @@
 #define SECOND_ORDER_CA_1D_H
 
 #include <cstdint>
-#include "CellularAutomaton.h"
+#include "ICellularAutomaton.h"
 
 namespace CA
 {
-    class SecondOrderCA1D : virtual public CellularAutomaton<C1D>
+    class ISecondOrderCA1D : virtual public ICellularAutomaton<C1D>
     {
     protected:
 
-        SecondOrderCA1D(uint32_t size, uint32_t d) :
+        ISecondOrderCA1D(uint32_t size, uint32_t d) :
                 d(d),
                 current_t(0),
                 old1_qs(size),

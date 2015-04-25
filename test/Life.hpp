@@ -5,16 +5,16 @@
 #include "CA.h"
 
 class Life :
-        public CA::AnimatedCA2D,
-        public CA::FirstOrderCA2D,
-        public CA::RandomInitCA<CA::C2D>
+        public CA::IAnimatedCA2D,
+        public CA::IFirstOrderCA2D,
+        public CA::IRandomInitCA<CA::C2D>
 {
 public:
 
     Life(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            AnimatedCA(W, H, 2, delay, save),
-            FirstOrderCA2D(W * H, W, 9),
-            RandomInitCA(2)
+            IAnimatedCA(W, H, 2, delay, save),
+            IFirstOrderCA2D(W * H, W, 9),
+            IRandomInitCA(2)
     {
         srand(time(NULL));
     }
