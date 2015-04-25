@@ -1,31 +1,21 @@
-#ifndef CENTRAL_INIT_CA_2D_H
-#define CENTRAL_INIT_CA_2D_H
+#pragma once
 
-#include <cstdint>
-#include <random>
-#include "ICellularAutomaton.h"
+#include "IAnimatedCA.hpp"
 
 namespace CA
 {
-    class ICentralInitCA2D : virtual public ICellularAutomaton<C2D>
+    class ICentralInitCA2D : virtual public IAnimatedCA<C2D>
     {
     protected:
 
-        ICentralInitCA2D(uint32_t W, uint32_t H, uint32_t centre, uint32_t outer) :
-                _W(W),
-                _H(H),
-                centre(centre),
-                outer(outer)
-        { }
+        ICentralInitCA2D(uint32_t central, uint32_t outer) :
+                central(central),
+                outer(outer) { }
         State q0(const C2D&);
 
     private:
 
-        uint32_t _W;
-        uint32_t _H;
-        uint32_t centre;
+        uint32_t central;
         uint32_t outer;
     };
 }
-
-#endif // CENTRAL_INIT_CA_2D_H

@@ -1,4 +1,3 @@
-#include <cstdint>
 #include "IFirstOrderCA1D.h"
 
 namespace CA
@@ -20,15 +19,15 @@ namespace CA
             }
 
             auto neighbours = N(c);
-            auto neigh_qs = std::vector<State>();
-            neigh_qs.reserve(d);
+            auto neighbours_states = std::vector<State>();
+            neighbours_states.reserve(num_of_neighbours);
 
             for (auto neighbour : neighbours)
-                neigh_qs.push_back(old_qs[neighbour.i]);
+                neighbours_states.push_back(old_qs[neighbour.i]);
 
-            new_qs[c.i] = delta(c, neigh_qs);
+            new_qs[c.i] = delta(c, neighbours_states);
 
-            return delta(c, neigh_qs);
+            return delta(c, neighbours_states);
         }
     }
 }

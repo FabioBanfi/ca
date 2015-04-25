@@ -1,22 +1,21 @@
-#ifndef LANGTON_S_ANT_H
-#define LANGTON_S_ANT_H
+#pragma once
 
 #define RED(v) ((v) << 16)
 
-#include <cstdint>
 #include "CA.h"
 
 class LangtonsAnt :
         public CA::IAnimatedCA2D,
+        public CA::IVonNeumannCA2D,
         public CA::IFirstOrderCA2D,
         public CA::ICentralInitCA2D
 {
 public:
 
-    LangtonsAnt(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            IAnimatedCA(W, H, 10, delay, save),
-            IFirstOrderCA2D(W * H, W, 5),
-            ICentralInitCA2D(W, H, 1, 0)
+    LangtonsAnt(uint32_t width, uint32_t height, uint32_t delay = 0, bool save = false) :
+            IAnimatedCA(width, height, 10, delay, save),
+            IFirstOrderCA2D(5),
+            ICentralInitCA2D(1, 0)
     {
         srand(time(NULL));
 
@@ -31,20 +30,6 @@ public:
     }
 
 private:
-
-    std::vector<CA::C2D> N(const CA::C2D& c)
-    {
-        auto result = std::vector<CA::C2D>();
-
-        result.reserve(5);
-        result.push_back(c);
-        result.push_back(L[CA::mod(c.x, W) + W * CA::mod(c.y - 1, H)]);
-        result.push_back(L[CA::mod(c.x + 1, W) + W * CA::mod(c.y, H)]);
-        result.push_back(L[CA::mod(c.x, W) + W * CA::mod(c.y + 1, H)]);
-        result.push_back(L[CA::mod(c.x - 1, W) + W * CA::mod(c.y, H)]);
-
-        return result;
-    }
 
     CA::State delta(const CA::C2D& c, const std::vector<CA::State>& qs)
     {
@@ -97,5 +82,3 @@ private:
         }
     }
 };
-
-#endif // LANGTON_S_ANT_H

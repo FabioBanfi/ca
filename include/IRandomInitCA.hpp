@@ -1,21 +1,18 @@
-#ifndef RANDOM_INIT_CA_H
-#define RANDOM_INIT_CA_H
+#pragma once
 
-#include <cstdint>
 #include <random>
-#include "ICellularAutomaton.h"
+#include "IAnimatedCA.hpp"
 
 namespace CA
 {
     template <class Cell>
-    class IRandomInitCA : virtual public ICellularAutomaton<Cell>
+    class IRandomInitCA : virtual public IAnimatedCA<Cell>
     {
     protected:
 
-        IRandomInitCA(uint32_t s) :
+        IRandomInitCA() :
                 gen(rd()),
-                dis(0, s - 1)
-        { }
+                dis(0, this->num_of_states - 1) { }
         State q0(const Cell& c)
         {
             return this->Q[dis(gen)];
@@ -28,5 +25,3 @@ namespace CA
         std::uniform_int_distribution<> dis;
     };
 }
-
-#endif // RANDOM_INIT_CA_H

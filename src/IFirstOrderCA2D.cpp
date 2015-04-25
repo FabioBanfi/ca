@@ -1,4 +1,3 @@
-#include <cstdint>
 #include "IFirstOrderCA2D.h"
 
 namespace CA
@@ -7,7 +6,7 @@ namespace CA
     {
         if (t == 0)
         {
-            new_qs[c.x + offset * c.y] = q0(c);
+            new_qs[c.x + width * c.y] = q0(c);
 
             return q0(c);
         }
@@ -20,15 +19,15 @@ namespace CA
             }
 
             auto neighbours = N(c);
-            auto neigh_qs = std::vector<State>();
-            neigh_qs.reserve(d);
+            auto neighbours_states = std::vector<State>();
+            neighbours_states.reserve(num_of_neighbours);
 
             for (auto neighbour : neighbours)
-                neigh_qs.push_back(old_qs[neighbour.x + offset * neighbour.y]);
+                neighbours_states.push_back(old_qs[neighbour.x + width * neighbour.y]);
 
-            new_qs[c.x + offset * c.y] = delta(c, neigh_qs);
+            new_qs[c.x + width * c.y] = delta(c, neighbours_states);
 
-            return delta(c, neigh_qs);
+            return delta(c, neighbours_states);
         }
     }
 }

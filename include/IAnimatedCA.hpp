@@ -1,13 +1,9 @@
-#ifndef ANIMATED_CA_H
-#define ANIMATED_CA_H
+#pragma once
 
 #include <iostream>
-#include <cstdint>
 #include <SDL2/SDL.h>
 #include "ICellularAutomaton.h"
 
-#define BLACK 0x0U
-#define WHITE 0xFFU
 #define GRAY(v) ((v) | ((v) << 8) | ((v) << 16))
 
 namespace CA
@@ -20,21 +16,20 @@ namespace CA
     public:
 
         IAnimatedCA() { }
-        IAnimatedCA(uint32_t W, uint32_t H, uint32_t S, uint32_t delay = 0, bool save = false) :
-                W(W),
-                H(H),
-                S(S),
+        IAnimatedCA(uint32_t width, uint32_t height, uint32_t num_of_states, uint32_t delay = 0, bool save = false) :
+                width(width),
+                height(height),
+                num_of_states(num_of_states),
                 delay(delay),
                 save(save),
-                cells(new uint32_t[W * H]) { }
-
+                cells(new uint32_t[width * height]) { }
         virtual void animate() = 0;
 
     protected:
 
-        uint32_t W;
-        uint32_t H;
-        uint32_t S;
+        uint32_t width;
+        uint32_t height;
+        uint32_t num_of_states;
         uint32_t delay;
         bool save;
         uint32_t* cells;
@@ -55,11 +50,11 @@ namespace CA
         }
 
         // http://stackoverflow.com/questions/20233469/how-do-i-take-and-save-a-bmp-screenshot-in-sdl-2
-        bool saveScreenshotBMP(std::string filepath, SDL_Window* SDLWindow, SDL_Renderer* SDLRenderer)
+        bool saveScreenshotBMP(std::string file_path, SDL_Window*window, SDL_Renderer*renderer)
         {
             SDL_Surface* saveSurface = NULL;
             SDL_Surface* infoSurface = NULL;
-            infoSurface = SDL_GetWindowSurface(SDLWindow);
+            infoSurface = SDL_GetWindowSurface(window);
 
             if (infoSurface == NULL)
             {
@@ -76,7 +71,7 @@ namespace CA
                 }
                 else
                 {
-                    if (SDL_RenderReadPixels(SDLRenderer, &infoSurface->clip_rect, infoSurface->format->format, pixels, infoSurface->w * infoSurface->format->BytesPerPixel) != 0)
+                    if (SDL_RenderReadPixels(renderer, &infoSurface->clip_rect, infoSurface->format->format, pixels, infoSurface->w * infoSurface->format->BytesPerPixel) != 0)
                     {
                         std::cerr << "Failed to read pixel data from SDL_Renderer object. SDL_GetError() - " << SDL_GetError() << std::endl;
                         pixels = NULL;
@@ -94,7 +89,7 @@ namespace CA
                             return false;
                         }
 
-                        SDL_SaveBMP(saveSurface, filepath.c_str());
+                        SDL_SaveBMP(saveSurface, file_path.c_str());
                         SDL_FreeSurface(saveSurface);
                         saveSurface = NULL;
                     }
@@ -110,5 +105,3 @@ namespace CA
         }
     };
 }
-
-#endif // ANIMATED_CA_H

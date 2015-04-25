@@ -1,32 +1,25 @@
-#ifndef FIRST_ORDER_CA_2D_H
-#define FIRST_ORDER_CA_2D_H
+#pragma once
 
-#include <cstdint>
-#include "ICellularAutomaton.h"
+#include "IAnimatedCA.hpp"
 
 namespace CA
 {
-    class IFirstOrderCA2D : virtual public ICellularAutomaton<C2D>
+    class IFirstOrderCA2D : virtual public IAnimatedCA<C2D>
     {
     protected:
 
-        IFirstOrderCA2D(uint32_t size, uint32_t offset, uint32_t d) :
-                offset(offset),
-                d(d),
+        IFirstOrderCA2D(uint32_t num_of_neighbours) :
+                num_of_neighbours(num_of_neighbours),
                 current_t(0),
-                old_qs(size),
-                new_qs(size)
-        { }
+                old_qs(width * height),
+                new_qs(width * height) { }
         virtual State phi(const C2D&, uint32_t);
 
     private:
 
-        uint32_t offset;
-        uint32_t d;
+        uint32_t num_of_neighbours;
         uint32_t current_t;
         std::vector<State> old_qs;
         std::vector<State> new_qs;
     };
 }
-
-#endif // FIRST_ORDER_CA_2D_H

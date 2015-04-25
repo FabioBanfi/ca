@@ -1,4 +1,3 @@
-#include <cstdint>
 #include <iomanip>
 #include <sstream>
 #include "IAnimatedCA2D.h"
@@ -7,13 +6,13 @@ namespace CA
 {
     IAnimatedCA2D::IAnimatedCA2D()
     {
-        L = std::vector<C2D>(W * H);
-        for (uint32_t i = 0; i < W * H; i++)
-            L[i] = (C2D(mod(i, W), (i - mod(i, W)) / W));
+        L = std::vector<C2D>(width * height);
+        for (uint32_t i = 0; i < width * height; i++)
+            L[i] = (C2D(mod(i, width), (i - mod(i, width)) / width));
 
-        Q = std::vector<State>(S);
-        int d = 255 / (S - 1);
-        for (uint32_t s = 0; s < S; s++)
+        Q = std::vector<State>(num_of_states);
+        int d = 255 / (num_of_states - 1);
+        for (uint32_t s = 0; s < num_of_states; s++)
             Q[s] = GRAY(255 - s * d);
     }
 
@@ -22,17 +21,18 @@ namespace CA
         SDL_Init(SDL_INIT_VIDEO);
         SDL_CreateThread(events_thread, NULL, (void*)NULL);
 
-        SDL_Window* window = SDL_CreateWindow("CA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, W, H, 0);
+        SDL_Window* window = SDL_CreateWindow("CA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
         SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-        SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, W, H);
+        SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, width,
+                                                 height);
 
         uint32_t t = 0;
         while (run)
         {
-            for (uint32_t i = 0; i < W * H; i++)
+            for (uint32_t i = 0; i < width * height; i++)
                 cells[i] = phi(L[i], t);
 
-            SDL_UpdateTexture(texture, NULL, cells, W * static_cast<uint32_t>(sizeof(uint32_t)));
+            SDL_UpdateTexture(texture, NULL, cells, width * static_cast<uint32_t>(sizeof(uint32_t)));
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer, texture, NULL, NULL);
             SDL_RenderPresent(renderer);

@@ -1,4 +1,3 @@
-#include <cstdint>
 #include "ISecondOrderCA1D.h"
 
 namespace CA
@@ -21,7 +20,7 @@ namespace CA
 
             auto neighbours = N(c);
             auto neigh_qs = std::vector<State>();
-            neigh_qs.reserve(d);
+            neigh_qs.reserve(num_of_neighbours);
 
             for (auto neighbour : neighbours)
                 neigh_qs.push_back(old1_qs[neighbour.i]);
@@ -41,7 +40,7 @@ namespace CA
 
             auto neighbours = N(c);
             auto neigh_qs = std::vector<State>();
-            neigh_qs.reserve(d);
+            neigh_qs.reserve(num_of_neighbours);
 
             for (auto neighbour : neighbours)
                 neigh_qs.push_back(old1_qs[neighbour.i]);

@@ -1,32 +1,27 @@
-#ifndef SECOND_ORDER_CA_1D_H
-#define SECOND_ORDER_CA_1D_H
+#pragma once
 
-#include <cstdint>
-#include "ICellularAutomaton.h"
+#include "IAnimatedCA.hpp"
 
 namespace CA
 {
-    class ISecondOrderCA1D : virtual public ICellularAutomaton<C1D>
+    class ISecondOrderCA1D : virtual public IAnimatedCA<C1D>
     {
     protected:
 
-        ISecondOrderCA1D(uint32_t size, uint32_t d) :
-                d(d),
+        ISecondOrderCA1D(uint32_t num_of_neighbours) :
+                num_of_neighbours(num_of_neighbours),
                 current_t(0),
-                old1_qs(size),
-                old2_qs(size),
-                new_qs(size)
-        { }
+                old1_qs(width),
+                old2_qs(width),
+                new_qs(width) { }
         virtual State phi(const C1D&, uint32_t);
 
     private:
 
-        uint32_t d;
+        uint32_t num_of_neighbours;
         uint32_t current_t;
         std::vector<State> old1_qs;
         std::vector<State> old2_qs;
         std::vector<State> new_qs;
     };
 }
-
-#endif // SECOND_ORDER_CA_1D_H

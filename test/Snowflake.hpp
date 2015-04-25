@@ -1,7 +1,5 @@
-#ifndef SNOWFLAKE_H
-#define SNOWFLAKE_H
+#pragma once
 
-#include <cstdint>
 #include "CA.h"
 
 class Snowflake :
@@ -11,10 +9,10 @@ class Snowflake :
 {
 public:
 
-    Snowflake(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            IAnimatedCA(W, H, 2, delay, save),
-            IFirstOrderCA2D(W * H, W, 7),
-            ICentralInitCA2D(W, H, 1, 0)
+    Snowflake(uint32_t width, uint32_t height, uint32_t delay = 0, bool save = false) :
+            IAnimatedCA(width, height, 2, delay, save),
+            IFirstOrderCA2D(7),
+            ICentralInitCA2D(1, 0)
     {
         srand(time(NULL));
     }
@@ -29,7 +27,7 @@ private:
         for (int32_t k = -1; k <= 1; k++)
             for (int32_t j = -1; j <= 1; j++)
                 if ((j != -1 || k != -1) && (j != 1 || k != 1))
-                    result.push_back(L[CA::mod(c.x + j, W) + W * CA::mod(c.y + k, H)]);
+                    result.push_back(L[CA::mod(c.x + j, width) + width * CA::mod(c.y + k, height)]);
 
         return result;
     }
@@ -46,5 +44,3 @@ private:
         return Q[qs[3] == Q[1] || (qs[3] == Q[0] && sum == 1)];
     }
 };
-
-#endif // SNOWFLAKE_H

@@ -1,10 +1,7 @@
-#ifndef ROCK_PAPER_SCISSOR_H
-#define ROCK_PAPER_SCISSOR_H
+#pragma once
 
-#include <cstdint>
 #include <random>
 #include "CA.h"
-#include "RandomCA1D.hpp"
 
 class RockPaperScissor :
         public CA::IAnimatedCA2D,
@@ -13,10 +10,9 @@ class RockPaperScissor :
 {
 public:
 
-    RockPaperScissor(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            IAnimatedCA(W, H, 3, delay, save),
-            IFirstOrderCA2D(W * H, W, 2),
-            IRandomInitCA(3),
+    RockPaperScissor(uint32_t width, uint32_t height, uint32_t delay = 0, bool save = false) :
+            IAnimatedCA(width, height, 3, delay, save),
+            IFirstOrderCA2D(2),
             gen(rd()),
             dis(0, 7)
     {
@@ -41,7 +37,7 @@ private:
         for (int32_t k = -1; k <= 1; k++)
             for (int32_t j = -1; j <= 1; j++)
                 if (CA::C2D(j, k) != c)
-                    moore.push_back(L[CA::mod(c.x + j, W) + W * CA::mod(c.y + k, H)]);
+                    moore.push_back(L[CA::mod(c.x + j, width) + width * CA::mod(c.y + k, height)]);
 
         result.push_back(moore[dis(gen)]);
         return result;
@@ -55,5 +51,3 @@ private:
         return qs[q0 == CA::mod(q1 - 1, 3)];
     }
 };
-
-#endif // ROCK_PAPER_SCISSOR_H

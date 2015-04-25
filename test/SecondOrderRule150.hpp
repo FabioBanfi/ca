@@ -1,34 +1,20 @@
-#ifndef SECOND_ORDER_RULE_150_H
-#define SECOND_ORDER_RULE_150_H
+#pragma once
 
-#include <cstdint>
 #include "CA.h"
 
 class SecondOrderRule150 :
         public CA::IAnimatedCA1D,
+        public CA::IMooreCA1D,
         public CA::ISecondOrderCA1D,
         public CA::IRandomInitCA<CA::C1D>
 {
 public:
 
-    SecondOrderRule150(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            IAnimatedCA(W, H, 2, delay, save),
-            ISecondOrderCA1D(W, 3),
-            IRandomInitCA(2)
-    { }
+    SecondOrderRule150(uint32_t width, uint32_t height, uint32_t delay = 0, bool save = false) :
+            IAnimatedCA(width, height, 2, delay, save),
+            ISecondOrderCA1D(3) { }
 
 private:
-
-    std::vector<CA::C1D> N(const CA::C1D& c)
-    {
-        auto result = std::vector<CA::C1D>(3);
-
-        result[0] = L[CA::mod(c.i - 1, W)];
-        result[1] = c;
-        result[2] = L[CA::mod(c.i + 1, W)];
-
-        return result;
-    }
 
     CA::State delta(const CA::C1D& c, const std::vector<CA::State>& qs)
     {
@@ -40,5 +26,3 @@ private:
         return Q[CA::mod(ql + qi + qr, 2)];
     }
 };
-
-#endif // SECOND_ORDER_RULE_150_H

@@ -1,19 +1,18 @@
-#ifndef CELLULAR_AUTOMATON_H
-#define CELLULAR_AUTOMATON_H
+#pragma once
 
 #include <cstdint>
-#include <vector>
 #include <ostream>
+#include <vector>
 
 namespace CA
 {
     #ifdef __GNUG__
     static uint32_t mod (int32_t, uint32_t) __attribute__ ((unused));
     #endif
-    static uint32_t mod(int32_t x, uint32_t m)
+    static uint32_t mod(int32_t value, uint32_t modulo)
     {
-        int32_t r = x % static_cast<int32_t>(m);
-        return static_cast<uint32_t>(r < 0 ? r + m : r);
+        int32_t remainder = value % static_cast<int32_t>(modulo);
+        return static_cast<uint32_t>(remainder < 0 ? remainder + modulo : remainder);
     }
 
     typedef uint32_t State;
@@ -21,7 +20,7 @@ namespace CA
     struct C1D
     {
         uint32_t i;
-        C1D() { i = 0; }
+        C1D() : i(0) { }
         C1D(uint32_t i) : i(i) { }
         bool operator==(const C1D& c) const { return this->i == c.i; }
         bool operator!=(const C1D& c) const { return this->i != c.i; }
@@ -32,7 +31,7 @@ namespace CA
     struct C2D
     {
         uint32_t x, y;
-        C2D() { x = 0, y = 0; }
+        C2D() : x(0), y(0) { }
         C2D(uint32_t x, uint32_t y) : x(x), y(y) { }
         bool operator==(const C2D& c) const { return this->x == c.x && this->y == c.y; }
         bool operator!=(const C2D& c) const { return this->x != c.x || this->y != c.y; }
@@ -53,5 +52,3 @@ namespace CA
         virtual State q0(const Cell&) = 0;
     };
 }
-
-#endif // CELLULAR_AUTOMATON_H

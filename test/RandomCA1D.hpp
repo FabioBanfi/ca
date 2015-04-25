@@ -1,7 +1,5 @@
-#ifndef RANDOM_CA_1D_H
-#define RANDOM_CA_1D_H
+#pragma once
 
-#include <cstdint>
 #include <random>
 #include "CA.h"
 
@@ -12,13 +10,11 @@ class RandomCA1D :
 {
 public:
 
-    RandomCA1D(uint32_t W, uint32_t H, uint32_t delay = 0, bool save = false) :
-            IAnimatedCA(W, H, 2, delay, save),
-            IFirstOrderCA1D(W, 3),
-            IRandomInitCA(2),
+    RandomCA1D(uint32_t width, uint32_t height, uint32_t delay = 0, bool save = false) :
+            IAnimatedCA(width, height, 2, delay, save),
+            IFirstOrderCA1D(3),
             gen(rd()),
-            dis(0, 1)
-    { }
+            dis(0, 1) { }
 
 private:
 
@@ -36,5 +32,3 @@ private:
         return Q[dis(gen)];
     }
 };
-
-#endif // RANDOM_CA_1D_H

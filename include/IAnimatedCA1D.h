@@ -1,18 +1,14 @@
-#ifndef ANIMATED_CA_1D_H
-#define ANIMATED_CA_1D_H
+#pragma once
 
 #include "IAnimatedCA.hpp"
 
-namespace CA {
-
-class IAnimatedCA1D : virtual public IAnimatedCA<C1D>
+namespace CA
 {
-public:
+    class IAnimatedCA1D : virtual public IAnimatedCA<C1D>
+    {
+    public:
 
-    IAnimatedCA1D();
-    void animate();
-};
-
-} // CA
-
-#endif // ANIMATED_CA_1D_H
+        IAnimatedCA1D();
+        void animate();
+    };
+}

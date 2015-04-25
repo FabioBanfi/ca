@@ -6,11 +6,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
     src/IAnimatedCA1D.cpp
     src/IAnimatedCA2D.cpp
+    src/IMooreCA1D.cpp
+    src/IMooreCA2D.cpp
+    src/IVonNeumannCA2D.cpp
     src/IFirstOrderCA1D.cpp
     src/IFirstOrderCA2D.cpp
+    src/ISecondOrderCA1D.cpp
     src/ICentralInitCA1D.cpp
     src/ICentralInitCA2D.cpp
-    src/ISecondOrderCA1D.cpp
     test/main.cpp)
 
 include_directories(include)
